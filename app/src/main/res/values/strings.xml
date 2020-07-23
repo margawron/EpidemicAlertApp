@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">EpidemicAlertApp</string>
+    <string name="app_name">Ostrzeżenie Epidemiologiczne</string>
+    <string name="HERE_YOU_ARE">Tutaj jesteś</string>
 </resources>
