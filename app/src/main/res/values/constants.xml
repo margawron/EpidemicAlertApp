@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gms_api_key">REPLACE_ME_PLEASE</string>
+    <string name="preferences_file_name">epidemic-alert-preferences-file</string>
+    <string name="preference_last_logged_username">last_logged_username</string>
+</resources>

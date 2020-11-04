@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.margawron.epidemicalertapp">
 
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
@@ -16,18 +17,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.github.margawron.epidemicalertapp.EpidemicAlertApp">
+        android:name=".MainApplication"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/gms_api_key" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".AuthActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
