@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
             Manifest.permission.INTERNET
         ),
         50
@@ -63,10 +64,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
 
         findViewById<Button>(R.id.button).setOnClickListener {
-            val intent = Intent(this, AuthActivity::class.java)
+            val intent = Intent(this, StartupActivity::class.java)
             startActivity(intent)
         }
 

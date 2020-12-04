@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Ostrzeżenie Epidemiologiczne</string>
     <string name="HERE_YOU_ARE">Tutaj jesteś</string>
+    <string name="app_error">Błąd</string>
+    <string name="register">Zarejestruj</string>
+    <string name="remember_me">Zapamiętaj mnie</string>
+    <string name="login">Zaloguj</string>
+    <string name="username">Nazwa użytkwonika:</string>
+    <string name="password">Hasło:</string>
 </resources>

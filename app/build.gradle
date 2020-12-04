@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+
 
 android {
     compileSdkVersion 29
@@ -16,11 +16,20 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildTypes {
@@ -30,19 +39,40 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding true
+    buildFeatures{
+        dataBinding true
     }
 }
 
 dependencies {
+    def appCompatVersion = "1.2.0"
+    def lifecycle_version = "2.2.0"
     def room_version = "2.2.5"
     def retrofit_version = "2.9.0"
     def material_version = "1.2.1"
     def work_version = "2.4.0"
     def rxjava_version = "3.0.0"
+    def hilt_version = "1.0.0-alpha02"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    // STD
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation "com.google.android.material:material:$material_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation "androidx.activity:activity-ktx:1.1.0"
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
+
+    // RxJava
+    implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxjava_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -52,32 +82,26 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-   // implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
 
-    // Dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:hilt-android:$dagger_version"
-    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_version"
 
     // Work Manager
     implementation "androidx.work:work-runtime-ktx:$work_version"
     //implementation "androidx.work:work-rxjava2:$work_version"
 
-    // RxJava
-    //implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
-    //implementation "io.reactivex.rxjava3:rxandroid:$rxjava_version"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
-    implementation "com.google.android.material:material:$material_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-
+    // GMS
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
     implementation 'com.google.firebase:firebase-analytics:18.0.0'
 
+    // Testing
     testImplementation 'junit:junit:4.13.1'
     testImplementation "androidx.room:room-testing:$room_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
