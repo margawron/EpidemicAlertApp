@@ -1,5 +1,6 @@
 package com.github.margawron.epidemicalertapp.auth
 
+import com.github.margawron.epidemicalertapp.api.ApiResponse
 import com.google.gson.annotations.SerializedName
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -37,9 +38,9 @@ enum class AccountState {
 
 interface AuthService {
     @POST("register/")
-    suspend fun registerUser(@Body registerRequest: RegisterRequest): RegisterResponse
+    suspend fun registerUser(@Body registerRequest: RegisterRequest): ApiResponse<RegisterResponse>
 
     @POST("auth/")
-    suspend fun getBearerToken(@Body loginRequest: LoginRequest) : LoginResponse
+    suspend fun getBearerToken(@Body loginRequest: LoginRequest) : ApiResponse<LoginResponse>
 }
 
