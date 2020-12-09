@@ -5,6 +5,8 @@
     <string name="register">Zarejestruj</string>
     <string name="remember_me">Zapamiętaj mnie</string>
     <string name="login">Zaloguj</string>
-    <string name="username">Nazwa użytkwonika:</string>
+    <string name="username">Nazwa użytkownika:</string>
     <string name="password">Hasło:</string>
+    <string name="repeat_password">Powtórz hasło:</string>
+    <string name="email">Email:</string>
 </resources>

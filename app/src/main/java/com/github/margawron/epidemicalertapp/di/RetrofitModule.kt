@@ -33,10 +33,4 @@ class RetrofitModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(okHttpClient)
         .build()
-
-    @Singleton
-    @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService =
-        retrofit.create(AuthService::class.java)
-
 }

@@ -1,9 +1,9 @@
 package com.github.margawron.epidemicalertapp.viewmodels
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.margawron.epidemicalertapp.api.ApiResponse
@@ -21,7 +21,7 @@ class LoginViewModel @ViewModelInject internal constructor(
     private val authService: AuthService,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
-
+    val navigateToRegisterViewModel = MutableLiveData(false)
     var login = preferenceHelper.getLastLoggedUsername()
     var password = preferenceHelper.getLastLoggedPassword()
     var rememberPassword = preferenceHelper.getShouldRememberPassword()
@@ -44,8 +44,7 @@ class LoginViewModel @ViewModelInject internal constructor(
     }
 
     fun onRegisterClick() {
-        Log.d("OE", "TEST")
-        Toast.makeText(context, "Register binding works", Toast.LENGTH_SHORT).show()
+        navigateToRegisterViewModel.value = true
     }
 
 }
