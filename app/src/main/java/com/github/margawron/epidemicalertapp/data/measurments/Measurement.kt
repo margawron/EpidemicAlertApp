@@ -1,9 +1,6 @@
 package com.github.margawron.epidemicalertapp.data.measurments
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.github.margawron.epidemicalertapp.data.users.User
 import java.time.ZonedDateTime
 
@@ -14,6 +11,10 @@ import java.time.ZonedDateTime
             parentColumns = ["id"],
             childColumns = ["ownerId"]
         )
+    ],
+    indices = [
+        Index(value = ["server_side_id"], name = "ServerSideIdIndex", unique = true),
+        Index(value = ["sent_to_server"], name = "WasSentToServerIndex")
     ]
 )
 class Measurement(
@@ -43,5 +44,8 @@ class Measurement(
     val bearing: Float,
 
     @ColumnInfo(name = "bearing_accuracy")
-    val bearingAccuracy: Float
+    val bearingAccuracy: Float,
+
+    @ColumnInfo(name = "sent_to_server")
+    val wasSentToServer: Boolean = false
 )
