@@ -8,7 +8,8 @@ import androidx.room.*
     AccountStateConverter::class
 ])
 class User(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     val id: Long,
 
     @ColumnInfo(name = "login")
