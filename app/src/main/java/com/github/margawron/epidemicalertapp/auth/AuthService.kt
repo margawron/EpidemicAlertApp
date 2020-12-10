@@ -1,6 +1,8 @@
 package com.github.margawron.epidemicalertapp.auth
 
 import com.github.margawron.epidemicalertapp.api.ApiResponse
+import com.github.margawron.epidemicalertapp.data.users.AccountState
+import com.github.margawron.epidemicalertapp.data.users.Role
 import com.google.gson.annotations.SerializedName
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -25,16 +27,6 @@ data class RegisterResponse(
     var accountState: AccountState
 )
 
-enum class Role {
-    USER,
-    MODERATOR,
-    ADMINISTRATOR;
-}
-
-enum class AccountState {
-    NORMAL,
-    BANNED;
-}
 
 interface AuthService {
     @POST("register/")
