@@ -19,7 +19,7 @@ class RoleConverter {
             "U" -> Role.USER
             "M" -> Role.MODERATOR
             "A" -> Role.ADMINISTRATOR
-            else -> throw IllegalStateException("Invalid role code")
+            else -> throw IllegalStateException("Invalid role mapping string")
         }
     }
 }

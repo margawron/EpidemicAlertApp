@@ -18,7 +18,7 @@ class AccountStateConverter {
         return when (string) {
             "N" -> AccountState.NORMAL
             "B" -> AccountState.NORMAL
-            else -> throw IllegalStateException()
+            else -> throw IllegalStateException("Invalid account state mapping string")
         }
     }
 }

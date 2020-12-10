@@ -1,12 +1,17 @@
 package com.github.margawron.epidemicalertapp.data.users
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 @Entity
-@TypeConverters(value = [
-    RoleConverter::class,
-    AccountStateConverter::class
-])
+@TypeConverters(
+    value = [
+        RoleConverter::class,
+        AccountStateConverter::class
+    ]
+)
 class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
