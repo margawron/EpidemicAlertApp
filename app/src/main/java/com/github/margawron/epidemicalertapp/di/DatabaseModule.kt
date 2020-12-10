@@ -2,6 +2,8 @@ package com.github.margawron.epidemicalertapp.di
 
 import android.content.Context
 import com.github.margawron.epidemicalertapp.data.AppDatabase
+import com.github.margawron.epidemicalertapp.data.measurments.Measurement
+import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.UserDao
 import dagger.Module
 import dagger.Provides
@@ -21,4 +23,7 @@ class DatabaseModule {
 
     @Provides
     fun provideUserDao(appDatabase: AppDatabase): UserDao = appDatabase.userDao()
+
+    @Provides
+    fun provideMeasurementDao(appDatabase: AppDatabase): MeasurementDao = appDatabase.measurementDao()
 }

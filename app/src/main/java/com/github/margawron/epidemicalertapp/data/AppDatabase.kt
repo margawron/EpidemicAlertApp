@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.User
 import com.github.margawron.epidemicalertapp.data.users.UserDao
 
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao() : UserDao
+    abstract fun measurementDao(): MeasurementDao
 
 
     companion object{
