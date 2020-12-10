@@ -17,10 +17,10 @@ data class LoginResponse(
 
 data class RegisterResponse(
     var id: Long?,
-    var username: String?,
-    var useremail: String?,
-    var role: Role?,
-    var accountCreationDate: LocalDateTime?,
+    var username: String,
+    var useremail: String,
+    var role: Role,
+    var accountCreationDate: LocalDateTime,
     var accountExpirationDate: LocalDateTime?,
     var accountState: AccountState
 )
