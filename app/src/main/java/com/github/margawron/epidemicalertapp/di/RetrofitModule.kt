@@ -1,15 +1,13 @@
 package com.github.margawron.epidemicalertapp.di
 
 import com.github.margawron.epidemicalertapp.api.ApiResponseCallAdapter
-import com.github.margawron.epidemicalertapp.auth.AuthService
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Singleton
 
 
@@ -19,18 +17,10 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideGson(): Gson {
-        return Gson().newBuilder()
-            .setLenient()
-            .create()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
         .addCallAdapterFactory(ApiResponseCallAdapter())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(JacksonConverterFactory.create())
         .client(okHttpClient)
         .build()
 }
