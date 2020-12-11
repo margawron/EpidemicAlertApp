@@ -13,6 +13,7 @@ import androidx.room.TypeConverters
 )
 class Pathogen(
     @PrimaryKey
+    @ColumnInfo(name = "id")
     val id: Int,
 
     @ColumnInfo(name = "pathogen_name")
