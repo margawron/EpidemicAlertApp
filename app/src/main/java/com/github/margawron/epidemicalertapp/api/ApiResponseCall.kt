@@ -66,7 +66,7 @@ class ApiResponseCall<T : Any>(
                                 ApiResponse.Error(
                                     "Unknown error",
                                     "",
-                                    "Nie znany błąd"
+                                    "Nieznany błąd"
                                 )
                             )
                         )
