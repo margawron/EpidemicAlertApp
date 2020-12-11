@@ -2,6 +2,7 @@ package com.github.margawron.epidemicalertapp.di
 
 import android.content.Context
 import com.github.margawron.epidemicalertapp.data.AppDatabase
+import com.github.margawron.epidemicalertapp.data.alerts.AlertDao
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.pathogens.Pathogen
@@ -34,4 +35,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun providePathogenDao(appDatabase: AppDatabase): PathogenDao = appDatabase.pathogenDao()
+
+    @Singleton
+    @Provides
+    fun provideAlertDao(appDatabase: AppDatabase): AlertDao = appDatabase.alertDao()
 }
