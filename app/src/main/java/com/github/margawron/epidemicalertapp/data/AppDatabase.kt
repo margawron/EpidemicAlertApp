@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import com.github.margawron.epidemicalertapp.data.alerts.AlertDao
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.pathogens.PathogenDao
+import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.User
 import com.github.margawron.epidemicalertapp.data.users.UserDao
 
@@ -16,6 +17,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun measurementDao(): MeasurementDao
     abstract fun pathogenDao(): PathogenDao
     abstract fun alertDao(): AlertDao
+    abstract fun proximityMeasurementDao(): ProximityMeasurementDao
 
     companion object{
         @Volatile private var instance: AppDatabase? = null
