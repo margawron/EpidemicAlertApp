@@ -1,6 +1,7 @@
 package com.github.margawron.epidemicalertapp.viewmodels
 
 import android.content.Context
+import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,15 +27,15 @@ class LoginViewModel @ViewModelInject internal constructor(
 
     fun onLoginClick() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val isSuccessful =  authManager.loginUser(
+            val response = withContext(Dispatchers.IO) {
+                return@withContext authManager.loginUser(
                     LoginRequest(
                         login,
                         password
-                    ),
-                    activityContext
+                    )
                 )
             }
+            Toast.makeText(activityContext, "Test", Toast.LENGTH_SHORT).show()
         }
     }
 
