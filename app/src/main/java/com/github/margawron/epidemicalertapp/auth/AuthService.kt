@@ -1,21 +1,25 @@
 package com.github.margawron.epidemicalertapp.auth
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.margawron.epidemicalertapp.api.ApiResponse
 import com.github.margawron.epidemicalertapp.data.users.AccountState
 import com.github.margawron.epidemicalertapp.data.users.Role
-import com.google.gson.annotations.SerializedName
 import retrofit2.http.Body
 import retrofit2.http.POST
 import java.time.LocalDateTime
+import java.util.*
 
 data class LoginRequest(val login: String, val password: String)
 data class RegisterRequest(val login: String, val password: String, val email: String)
 
 data class LoginResponse(
-    @SerializedName("access_token")
+    @JsonProperty(value = "access_token")
     val accessToken: String,
-    @SerializedName("token_type")
-    val tokenType: String)
+    @JsonProperty(value = "expiration_date")
+    val expirationDate: Date,
+    @JsonProperty(value = "token_type")
+    val tokenType: String
+)
 
 data class RegisterResponse(
     var id: Long?,
@@ -33,6 +37,6 @@ interface AuthService {
     suspend fun registerUser(@Body registerRequest: RegisterRequest): ApiResponse<RegisterResponse>
 
     @POST("auth/")
-    suspend fun getBearerToken(@Body loginRequest: LoginRequest) : ApiResponse<LoginResponse>
+    suspend fun getBearerToken(@Body loginRequest: LoginRequest): ApiResponse<LoginResponse>
 }
 
