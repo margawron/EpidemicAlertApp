@@ -23,7 +23,6 @@ class RegisterViewModel @ViewModelInject internal constructor(
     var repeatPassword: String = ""
 
     fun register() {
-        binding?.registerButtonRegister?.isClickable = false
         when {
             username.length <= 3 -> {
                 binding?.registerInputUsername?.error =
@@ -38,6 +37,7 @@ class RegisterViewModel @ViewModelInject internal constructor(
             }
             else -> {
                 viewModelScope.launch {
+                    binding?.registerButtonRegister?.isClickable = false
                     val isSuccessful = withContext(Dispatchers.IO) {
                         authManager.registerUser(
                             RegisterRequest(
