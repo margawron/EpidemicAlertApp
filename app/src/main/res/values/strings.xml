@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Ostrzeżenie Epidemiologiczne</string>
-    <string name="HERE_YOU_ARE">Tutaj jesteś</string>
     <string name="app_error">Błąd</string>
     <string name="register">Zarejestruj</string>
     <string name="remember_me">Zapamiętaj mnie</string>
@@ -9,4 +8,7 @@
     <string name="password">Hasło:</string>
     <string name="repeat_password">Powtórz hasło:</string>
     <string name="email">Email:</string>
+    <string name="location_history_gathering_service">Usługa zbierania historii lokalizacji</string>
+
+    <string name="HERE_YOU_ARE">Tutaj jesteś</string>
 </resources>
