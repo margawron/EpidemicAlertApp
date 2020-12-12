@@ -1,5 +1,7 @@
 package com.github.margawron.epidemicalertapp.di
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.margawron.epidemicalertapp.api.ApiResponseCallAdapter
 import dagger.Module
 import dagger.Provides
@@ -17,10 +19,14 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideObjectMapper(): ObjectMapper = jacksonObjectMapper()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(objectMapper: ObjectMapper, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
         .addCallAdapterFactory(ApiResponseCallAdapter())
-        .addConverterFactory(JacksonConverterFactory.create())
+        .addConverterFactory(JacksonConverterFactory.create(objectMapper))
         .client(okHttpClient)
         .build()
 }
