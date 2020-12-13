@@ -1,7 +1,9 @@
 package com.github.margawron.epidemicalertapp.di
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import com.github.margawron.epidemicalertapp.api.ApiResponseCallAdapter
 import dagger.Module
 import dagger.Provides
@@ -19,11 +21,15 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideObjectMapper(): ObjectMapper = jacksonObjectMapper()
+    fun provideObjectMapper(): ObjectMapper =
+        jacksonMapperBuilder()
+            .addModule(JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, true)
+            .build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(objectMapper: ObjectMapper, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(objectMapper:ObjectMapper, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
         .addCallAdapterFactory(ApiResponseCallAdapter())
         .addConverterFactory(JacksonConverterFactory.create(objectMapper))

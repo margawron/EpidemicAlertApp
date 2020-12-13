@@ -1,5 +1,6 @@
 package com.github.margawron.epidemicalertapp.api
 
+import com.fasterxml.jackson.core.type.TypeReference
 import okhttp3.ResponseBody
 import retrofit2.*
 import java.lang.reflect.ParameterizedType
@@ -29,14 +30,15 @@ class ApiResponseCallAdapter : CallAdapter.Factory() {
         val successBodyType = getParameterUpperBound(0, responseType)
 
         val errorBodyConverter =
-            retrofit.nextResponseBodyConverter<ApiResponse.Error>(null, ApiResponse.Error::class.java, annotations)
+            retrofit.nextResponseBodyConverter<List<ApiError>>(null, object : TypeReference<List<ApiError>>(){}.type, annotations)
 
         return ApiResponseAdapter<Any>(successBodyType, errorBodyConverter)
     }
 
+
     class ApiResponseAdapter<T : Any>(
         private val servicedType: Type,
-        private val errorConverter: Converter<ResponseBody, ApiResponse.Error>
+        private val errorConverter: Converter<ResponseBody, List<ApiError>>
     ) : CallAdapter<T, Call<ApiResponse<T>>> {
         override fun responseType(): Type = servicedType
         override fun adapt(call: Call<T>): Call<ApiResponse<T>> {
