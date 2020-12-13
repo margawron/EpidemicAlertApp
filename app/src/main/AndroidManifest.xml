@@ -24,7 +24,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/gms_api_key" />
 
-        <activity android:name=".StartupActivity" >
+        <activity android:name=".LocationDisplayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,20 +32,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity"
-            android:parentActivityName=".StartupActivity">
+        <activity android:name=".LoginActivity"
+            android:parentActivityName=".LocationDisplayActivity">
         </activity>
 
-        <activity android:name=".DeleteMe_MainActivity"
-            android:parentActivityName=".StartupActivity">
+        <activity android:name=".RegisterActivity"
+            android:parentActivityName=".LoginActivity">
         </activity>
 
         <service android:name=".service.LocationForegroundService"
             android:foregroundServiceType="location">
         </service>
-
-        <activity android:name=".LocationDisplayActivity">
-        </activity>
 
     </application>
 

@@ -53,6 +53,7 @@ class LoginViewModel @ViewModelInject internal constructor(
                     val foregroundIntent = Intent(appContext, LocationForegroundService::class.java)
                     appContext.startForegroundService(foregroundIntent)
                     val locationDisplayIntent = Intent(appContext, LocationDisplayActivity::class.java)
+                    locationDisplayIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     appContext.startActivity(locationDisplayIntent)
                 }
                 is ApiResponse.Error -> {
