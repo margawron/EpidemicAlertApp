@@ -67,7 +67,7 @@ class DeleteMe_MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.main_activity)
 
         findViewById<Button>(R.id.button).setOnClickListener {
-            val intent = Intent(this, StartupActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
