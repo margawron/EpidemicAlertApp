@@ -36,7 +36,7 @@
             android:parentActivityName=".StartupActivity">
         </activity>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".DeleteMe_MainActivity"
             android:parentActivityName=".StartupActivity">
         </activity>
 
