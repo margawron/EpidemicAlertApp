@@ -28,7 +28,8 @@ class LocationForegroundService : Service() {
         val locationServiceNotification = builder.build()
         startForeground(1, locationServiceNotification)
         CoroutineScope(Dispatchers.IO).launch {
-
+            delay(5_000)
+            stopSelf()
         }
 
     }
