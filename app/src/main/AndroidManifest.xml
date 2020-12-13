@@ -23,7 +23,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/gms_api_key" />
 
-        <activity android:name=".LocationDisplayActivity">
+        <activity android:name=".LocationDisplayActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

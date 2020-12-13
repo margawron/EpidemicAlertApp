@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_bar_settings"
+        android:title="Ustawienia"/>
+
+    <item android:id="@+id/action_bar_mark_user"
+        android:title="Oznacz użytkownika"/>
+
+    <item android:id="@+id/action_bar_mark_place"
+        android:title="Oznacz miejsce"/>
+
+    <item android:id="@+id/action_bar_change_privilages"
+        android:title="Zmień uprawnienia"/>
+
+</menu>
