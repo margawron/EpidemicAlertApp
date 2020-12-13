@@ -44,6 +44,9 @@
             android:foregroundServiceType="location">
         </service>
 
+        <activity android:name=".LocationDisplayActivity">
+        </activity>
+
     </application>
 
 </manifest>
