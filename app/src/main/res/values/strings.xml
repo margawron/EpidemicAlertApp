@@ -11,4 +11,8 @@
     <string name="location_history_gathering_service">Usługa zbierania historii lokalizacji</string>
 
     <string name="HERE_YOU_ARE">Tutaj jesteś</string>
+    <string name="registration_successful">Rejestracja udała się!</string>
+    <string name="too_short_login">Nazwa użytkownika musi mieć co najmniej 5 znaki</string>
+    <string name="too_short_password">Hasło musi mieć co najmniej 5 znaków</string>
+    <string name="password_must_match">Hasła muszą się zgadzać</string>
 </resources>

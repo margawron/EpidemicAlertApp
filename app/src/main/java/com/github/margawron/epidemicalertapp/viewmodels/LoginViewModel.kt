@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.StringBuilder
 
 
 class LoginViewModel @ViewModelInject internal constructor(
@@ -39,18 +40,18 @@ class LoginViewModel @ViewModelInject internal constructor(
                 )
             }
             when (response) {
-                is ApiResponse.SuccessWithBody -> {
+                is ApiResponse.Success -> {
                     Toast.makeText(
                         appContext,
-                        response.body.accessToken,
+                        response.body?.accessToken ?: "No token came back",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is ApiResponse.SuccessWithoutBody -> {
-                    Toast.makeText(appContext, response.message, Toast.LENGTH_SHORT).show()
-                }
                 is ApiResponse.Error -> {
-                    Toast.makeText(appContext, response.errorMessage, Toast.LENGTH_SHORT).show()
+                    var errorBuilder = StringBuilder()
+                    response.errors.joinTo(errorBuilder, postfix = "\n") { e -> e.errorMessage }
+
+                    Toast.makeText(appContext, errorBuilder , Toast.LENGTH_SHORT).show()
                 }
             }
             val foregroundIntent = Intent(appContext, LocationForegroundService::class.java)

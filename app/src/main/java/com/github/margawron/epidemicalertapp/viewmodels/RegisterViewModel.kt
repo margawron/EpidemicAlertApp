@@ -1,9 +1,13 @@
 package com.github.margawron.epidemicalertapp.viewmodels
 
+import android.app.AlertDialog
 import android.content.Context
+import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.margawron.epidemicalertapp.R
+import com.github.margawron.epidemicalertapp.api.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.auth.RegisterRequest
 import com.github.margawron.epidemicalertapp.databinding.RegisterActivityBinding
@@ -11,10 +15,11 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.StringBuilder
 
 class RegisterViewModel @ViewModelInject internal constructor(
     private val authManager: AuthManager,
-    @ActivityContext val activityContext: Context
+    @ActivityContext val context: Context
 ) : ViewModel() {
     var binding: RegisterActivityBinding? = null
     var username: String = ""
@@ -24,33 +29,48 @@ class RegisterViewModel @ViewModelInject internal constructor(
 
     fun register() {
         when {
-            username.length <= 3 -> {
+            username.length <= 4 -> {
                 binding?.registerInputUsername?.error =
-                    "Nazwa użytkownika musi mieć co najmniej 4 znaki"
+                    context.getString(R.string.too_short_login)
             }
             password.length <= 4 -> {
-                binding?.registerInputPassword?.error = "Hasło musi mieć co najmniej 5 znaków"
+                binding?.registerInputPassword?.error = context.getString(R.string.too_short_password)
             }
             password != repeatPassword -> {
-                binding?.registerInputPassword?.error = "Hasła muszą się zgadzać"
-                binding?.registerInputRepeatPassword?.error = "Hasła muszą się zgadzać"
+                binding?.registerInputPassword?.error = context.getString(R.string.password_must_match)
+                binding?.registerInputRepeatPassword?.error = context.getString(R.string.password_must_match)
             }
             else -> {
                 viewModelScope.launch {
                     binding?.registerButtonRegister?.isClickable = false
-                    val isSuccessful = withContext(Dispatchers.IO) {
+                    val apiResponse = withContext(Dispatchers.IO) {
                         authManager.registerUser(
                             RegisterRequest(
                                 username,
                                 password,
                                 email
-                            ),
-                            activityContext
+                            )
                         )
-                        binding?.registerButtonRegister?.isClickable = true
                     }
+                    when(apiResponse){
+                        is ApiResponse.Success -> {
+                            Toast.makeText(context, context.getString(R.string.registration_successful), Toast.LENGTH_SHORT).show()
+//                            (context as Activity).finish()
+                        }
+                        is ApiResponse.Error -> {
+                            val errorBuilder = StringBuilder()
+                            apiResponse.errors.joinTo(errorBuilder, separator = "\n") {e -> e.errorMessage}
+                            with(AlertDialog.Builder(context)){
+                                setMessage(errorBuilder)
+                                setNegativeButton(android.R.string.ok){ dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                            }.create()
+                                .show()
+                        }
+                    }
+                    binding?.registerButtonRegister?.isClickable = true
                 }
-
             }
         }
     }

@@ -11,7 +11,7 @@ import java.io.IOException
 
 class ApiResponseCall<T : Any>(
     private val call: Call<T>,
-    private val errorBodyConverter: Converter<ResponseBody, ApiResponse.Error>
+    private val errorBodyConverter: Converter<ResponseBody, List<ApiError>>
 ) : Call<ApiResponse<T>> {
 
     override fun clone() = ApiResponseCall(call.clone(), errorBodyConverter)
@@ -29,17 +29,13 @@ class ApiResponseCall<T : Any>(
                     if (body != null) {
                         callback.onResponse(
                             this@ApiResponseCall,
-                            Response.success(ApiResponse.SuccessWithBody(body))
+                            Response.success(ApiResponse.Success(body))
                         )
                     } else {
-                        // Response is successful but the body is null
                         callback.onResponse(
                             this@ApiResponseCall,
                             Response.success(
-                                ApiResponse.SuccessWithoutBody(
-                                    response.code(),
-                                    response.message()
-                                )
+                                null
                             )
                         )
                     }
@@ -54,19 +50,24 @@ class ApiResponseCall<T : Any>(
                         }
                     }
                     if (errorBody != null) {
-                        errorBody.code = code
                         callback.onResponse(
                             this@ApiResponseCall,
-                            Response.success(errorBody)
+                            Response.success(ApiResponse.Error(code, errorBody))
                         )
                     } else {
                         callback.onResponse(
                             this@ApiResponseCall,
                             Response.success(
                                 ApiResponse.Error(
-                                    "Unknown error",
-                                    "",
-                                    error?.string() ?: "Nieznany błąd"
+                                    null,
+                                    listOf(
+                                        ApiError(
+                                            "Unknown error",
+                                            "",
+                                            error?.string() ?: "Nieznany błąd"
+                                        )
+
+                                    )
                                 )
                             )
                         )
@@ -78,16 +79,26 @@ class ApiResponseCall<T : Any>(
                 val networkResponse = when (throwable) {
                     is IOException -> {
                         ApiResponse.Error(
-                            "Network Error",
-                            "none",
-                            throwable.localizedMessage ?: ""
+                            null,
+                            listOf(
+                                ApiError(
+                                    "Network Error",
+                                    "none",
+                                    throwable.localizedMessage ?: "Doszło do błędu z połączeniem"
+                                )
+                            )
                         )
                     }
                     else -> {
                         ApiResponse.Error(
-                            "Unknown Error",
-                            "none",
-                            throwable.localizedMessage ?: ""
+                            null,
+                            listOf(
+                                ApiError(
+                                    "Unknown Error",
+                                    "none",
+                                    throwable.localizedMessage ?: "Nieznany błąd"
+                                )
+                            )
                         )
                     }
                 }
