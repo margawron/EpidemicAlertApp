@@ -21,7 +21,7 @@ class PreferenceHelper(private val context: Context) {
 
     fun setLastLoggedPassword(password: String): Boolean =
         sharedPreferences.edit()
-            .putString(context.getString(R.string.preference_last_logged_username), password)
+            .putString(context.getString(R.string.preference_last_logged_password), password)
             .commit()
 
     fun getLastLoggedPassword(): String = sharedPreferences.getString(

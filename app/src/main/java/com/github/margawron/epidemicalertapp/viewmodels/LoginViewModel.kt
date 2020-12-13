@@ -13,6 +13,7 @@ import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.auth.LoginRequest
 import com.github.margawron.epidemicalertapp.service.LocationForegroundService
 import com.github.margawron.epidemicalertapp.util.PreferenceHelper
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,13 +22,20 @@ import java.lang.StringBuilder
 
 
 class LoginViewModel @ViewModelInject internal constructor(
-    preferenceHelper: PreferenceHelper,
+    private val preferenceHelper: PreferenceHelper,
     private val authManager: AuthManager,
-    @ApplicationContext private val appContext: Context,
+    @ActivityContext private val appContext: Context,
 ) : ViewModel() {
     var login = preferenceHelper.getLastLoggedUsername()
     var password = preferenceHelper.getLastLoggedPassword()
     var rememberPassword = preferenceHelper.getShouldRememberPassword()
+
+    init {
+        if(preferenceHelper.getShouldRememberPassword()){
+            onLoginClick()
+        }
+    }
+
 
     fun onLoginClick() {
         viewModelScope.launch {
@@ -41,6 +49,7 @@ class LoginViewModel @ViewModelInject internal constructor(
             }
             when (response) {
                 is ApiResponse.Success -> {
+                    checkIfShouldRememberPassword()
                     val foregroundIntent = Intent(appContext, LocationForegroundService::class.java)
                     appContext.startForegroundService(foregroundIntent)
                     val locationDisplayIntent = Intent(appContext, LocationDisplayActivity::class.java)
@@ -52,6 +61,18 @@ class LoginViewModel @ViewModelInject internal constructor(
                     Toast.makeText(appContext, errorBuilder, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun checkIfShouldRememberPassword() {
+        if (rememberPassword) {
+            preferenceHelper.setLastLoggedUsername(login)
+            preferenceHelper.setLastLoggedPassword(password)
+            preferenceHelper.setShouldRememberPassword(true)
+        } else {
+            preferenceHelper.setLastLoggedUsername("")
+            preferenceHelper.setLastLoggedPassword("")
+            preferenceHelper.setShouldRememberPassword(false)
         }
     }
 
