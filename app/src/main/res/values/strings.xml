@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ostrzeżenie Epidemiologiczne</string>
+    <string name="app_name">Ostrzeżenie Epidemiczne</string>
     <string name="app_error">Błąd</string>
     <string name="register">Zarejestruj</string>
     <string name="remember_me">Zapamiętaj mnie</string>
