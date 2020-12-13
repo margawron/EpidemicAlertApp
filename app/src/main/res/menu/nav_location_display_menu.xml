@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/ic_poi"
+        android:icon="@drawable/ic_poi"
+        android:title="Punkty zainteresowania"/>
+
+    <item android:id="@+id/ic_location_history"
+        android:icon="@drawable/ic_location_history"
+        android:title="Historia lokalizacji"/>
+
+    <item android:id="@+id/ic_zones"
+        android:icon="@drawable/ic_zones"
+        android:title="Strefy bezpieczeństwa"/>
+
+    <item android:id="@+id/ic_alerts"
+        android:icon="@drawable/ic_alerts"
+        android:title="Powiadomienia"/>
+
+    <item android:id="@+id/ic_statistics"
+        android:icon="@drawable/ic_statistics"
+        android:title="Statystyki"/>
+</menu>
