@@ -1,6 +1,5 @@
 package com.github.margawron.epidemicalertapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +19,5 @@ class StartupActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.startup_activity)
         binding.lifecycleOwner = this
         binding.loginViewModel = viewModel
-
-        viewModel.navigateToRegisterViewModel.observe(this){
-            if(it == true){
-                startActivity(Intent(this, RegisterActivity::class.java))
-            }
-        }
     }
 }

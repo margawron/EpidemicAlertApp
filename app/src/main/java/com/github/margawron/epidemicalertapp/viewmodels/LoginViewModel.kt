@@ -4,9 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.margawron.epidemicalertapp.LocationDisplayActivity
+import com.github.margawron.epidemicalertapp.RegisterActivity
 import com.github.margawron.epidemicalertapp.api.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.auth.LoginRequest
@@ -24,7 +25,6 @@ class LoginViewModel @ViewModelInject internal constructor(
     private val authManager: AuthManager,
     @ApplicationContext private val appContext: Context,
 ) : ViewModel() {
-    val navigateToRegisterViewModel = MutableLiveData(false)
     var login = preferenceHelper.getLastLoggedUsername()
     var password = preferenceHelper.getLastLoggedPassword()
     var rememberPassword = preferenceHelper.getShouldRememberPassword()
@@ -41,26 +41,22 @@ class LoginViewModel @ViewModelInject internal constructor(
             }
             when (response) {
                 is ApiResponse.Success -> {
-                    Toast.makeText(
-                        appContext,
-                        response.body?.accessToken ?: "No token came back",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val foregroundIntent = Intent(appContext, LocationForegroundService::class.java)
+                    appContext.startForegroundService(foregroundIntent)
+                    val locationDisplayIntent = Intent(appContext, LocationDisplayActivity::class.java)
+                    appContext.startActivity(locationDisplayIntent)
                 }
                 is ApiResponse.Error -> {
-                    var errorBuilder = StringBuilder()
+                    val errorBuilder = StringBuilder()
                     response.errors.joinTo(errorBuilder, postfix = "\n") { e -> e.errorMessage }
-
-                    Toast.makeText(appContext, errorBuilder , Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, errorBuilder, Toast.LENGTH_SHORT).show()
                 }
             }
-            val foregroundIntent = Intent(appContext, LocationForegroundService::class.java)
-            appContext.startForegroundService(foregroundIntent)
         }
     }
 
     fun onRegisterClick() {
-        navigateToRegisterViewModel.value = true
+        appContext.startActivity(Intent(appContext, RegisterActivity::class.java))
     }
 
 }
