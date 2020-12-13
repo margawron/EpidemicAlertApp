@@ -1,5 +1,6 @@
 package com.github.margawron.epidemicalertapp.viewmodels
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
@@ -55,7 +56,7 @@ class RegisterViewModel @ViewModelInject internal constructor(
                     when(apiResponse){
                         is ApiResponse.Success -> {
                             Toast.makeText(context, context.getString(R.string.registration_successful), Toast.LENGTH_SHORT).show()
-//                            (context as Activity).finish()
+                            (context as Activity).finish()
                         }
                         is ApiResponse.Error -> {
                             val errorBuilder = StringBuilder()
