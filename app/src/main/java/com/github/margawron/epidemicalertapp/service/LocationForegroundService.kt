@@ -10,9 +10,11 @@ import android.content.Intent
 import android.location.LocationManager
 import android.os.IBinder
 import com.github.margawron.epidemicalertapp.R
+import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import com.intentfilter.androidpermissions.PermissionManager
 import com.intentfilter.androidpermissions.models.DeniedPermissions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import java.util.Collections.singleton
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ import javax.inject.Inject
 class LocationForegroundService : Service() {
 
     @Inject
-    lateinit var serviceLocationListener: ServiceLocationListener
+    lateinit var measurementRepository: MeasurementRepository
 
     companion object {
         const val CHANNEL_ID = "location"
@@ -52,20 +54,24 @@ class LocationForegroundService : Service() {
 
     private fun createLocationListener() {
         val locationManager = getSystemService(LocationManager::class.java)
-        val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
         val permissionManager = PermissionManager.getInstance(this)
+
+
+        val serviceLocationListener = ServiceLocationListener(measurementRepository) {
+            setupAccurateLocationListener(locationManager, it, permissionManager)
+        }
         permissionManager.checkPermissions(
             singleton(Manifest.permission.ACCESS_FINE_LOCATION),
             object : PermissionManager.PermissionRequestListener {
 
                 @SuppressLint("MissingPermission")
                 override fun onPermissionGranted() {
-                    val locationProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER)
+                    val locationProvider =
+                        locationManager.getProvider(LocationManager.GPS_PROVIDER)
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        60_000,
-                        10.0f,
+                        1_000,
+                        1.0f,
                         serviceLocationListener
                     )
                 }
@@ -77,9 +83,44 @@ class LocationForegroundService : Service() {
                         }
                     }
                 }
-
             })
+    }
 
+    private fun setupAccurateLocationListener(
+        locationManager: LocationManager,
+        it: ServiceLocationListener,
+        permissionManager: PermissionManager
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            locationManager.removeUpdates(it)
+            delay(50_000)
+            permissionManager.checkPermissions(
+                singleton(Manifest.permission.ACCESS_FINE_LOCATION),
+                object : PermissionManager.PermissionRequestListener {
+
+                    @SuppressLint("MissingPermission")
+                    override fun onPermissionGranted() {
+                        val locationProvider =
+                            locationManager.getProvider(LocationManager.GPS_PROVIDER)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                1_000,
+                                1.0f,
+                                it
+                            )
+                        }
+                    }
+
+                    override fun onPermissionDenied(deniedPermissions: DeniedPermissions) {
+                        for (permission in deniedPermissions) {
+                            if (permission.shouldShowRationale()) {
+
+                            }
+                        }
+                    }
+                })
+        }
     }
 }
 

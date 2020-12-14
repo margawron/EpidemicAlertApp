@@ -8,13 +8,17 @@ import com.github.margawron.epidemicalertapp.data.measurments.MeasurementReposit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-class ServiceLocationListener @Inject constructor(
-    private val measurementRepository: MeasurementRepository
+class ServiceLocationListener constructor(
+    private val measurementRepository: MeasurementRepository,
+    private val accurateMeasurementCallback: AccurateMeasurementCallback
 ) : LocationListener {
     override fun onLocationChanged(location: Location?) {
+        if (location == null || location.accuracy < 9) return
+        else accurateMeasurementCallback.onAccurateMeasurement(this)
+
+        // TODO znalezc najbardziej dokładny pomiar
         CoroutineScope(Dispatchers.IO).launch {
             measurementRepository.addLocationForLoggedInUser(location)
         }
@@ -30,5 +34,9 @@ class ServiceLocationListener @Inject constructor(
 
     override fun onProviderDisabled(provider: String?) {
         Log.d("OE", "Provider disabled $provider")
+    }
+
+    fun interface AccurateMeasurementCallback {
+        fun onAccurateMeasurement(it: ServiceLocationListener)
     }
 }

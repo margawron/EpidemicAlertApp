@@ -14,8 +14,7 @@ class MeasurementRepository @Inject constructor(
 ) {
     private var sentCounter = 0;
 
-    fun addLocationForLoggedInUser(location: Location?){
-        if (location == null) return
+    fun addLocationForLoggedInUser(location: Location){
         val user = authManager.getLoggedInUser()
             ?: throw IllegalStateException("User should not be null at this point")
         measurementDao.insert(
