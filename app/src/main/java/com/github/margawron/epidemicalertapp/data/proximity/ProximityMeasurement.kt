@@ -1,9 +1,6 @@
 package com.github.margawron.epidemicalertapp.data.proximity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.github.margawron.epidemicalertapp.data.alerts.Alert
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 
@@ -11,7 +8,7 @@ import com.github.margawron.epidemicalertapp.data.measurments.Measurement
     foreignKeys = [
         ForeignKey(
             entity = Measurement::class,
-            parentColumns = ["id"],
+            parentColumns = ["local_id"],
             childColumns = ["measurement_id"]
         ),
         ForeignKey(
@@ -19,6 +16,10 @@ import com.github.margawron.epidemicalertapp.data.measurments.Measurement
             parentColumns = ["id"],
             childColumns = ["alert_id"]
         )
+    ],
+    indices = [
+        Index(value = ["measurement_id"], name = "ProximityMeasurementIndex"),
+        Index(value = ["alert_id"], name = "ProximityAlertIndex")
     ]
 )
 class ProximityMeasurement(
