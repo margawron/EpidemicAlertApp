@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.margawron.epidemicalertapp.LocationDisplayActivity
 import com.github.margawron.epidemicalertapp.RegisterActivity
-import com.github.margawron.epidemicalertapp.api.ApiResponse
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.api.auth.messages.LoginRequest
 import com.github.margawron.epidemicalertapp.service.LocationForegroundService

@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.api
+package com.github.margawron.epidemicalertapp.api.common
 
 import com.fasterxml.jackson.core.type.TypeReference
 import okhttp3.ResponseBody

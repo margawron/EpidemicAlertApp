@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.api
+package com.github.margawron.epidemicalertapp.api.common
 
 import okhttp3.Request
 import okhttp3.ResponseBody

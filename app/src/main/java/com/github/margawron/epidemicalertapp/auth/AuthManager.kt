@@ -1,11 +1,11 @@
 package com.github.margawron.epidemicalertapp.auth
 
-import com.github.margawron.epidemicalertapp.api.*
 import com.github.margawron.epidemicalertapp.api.auth.AuthService
 import com.github.margawron.epidemicalertapp.api.auth.messages.LoginRequest
 import com.github.margawron.epidemicalertapp.api.auth.messages.LoginResponse
 import com.github.margawron.epidemicalertapp.api.auth.messages.RegisterRequest
 import com.github.margawron.epidemicalertapp.api.auth.messages.RegisterResponse
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.data.users.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
