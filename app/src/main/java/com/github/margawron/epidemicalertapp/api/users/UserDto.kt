@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.api.users.messages
+package com.github.margawron.epidemicalertapp.api.users
 
 import com.github.margawron.epidemicalertapp.data.users.AccountState
 import com.github.margawron.epidemicalertapp.data.users.Role
