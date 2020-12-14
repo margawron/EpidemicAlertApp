@@ -2,7 +2,7 @@ package com.github.margawron.epidemicalertapp.di
 
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.api.auth.AuthService
-import com.github.margawron.epidemicalertapp.data.users.UserDao
+import com.github.margawron.epidemicalertapp.data.users.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +21,5 @@ class AuthModule {
 
     @Singleton
     @Provides
-    fun provideAuthManager(userDao: UserDao, authService: AuthService) = AuthManager(authService)
+    fun provideAuthManager(userRepository: UserRepository, authService: AuthService) = AuthManager(userRepository, authService)
 }

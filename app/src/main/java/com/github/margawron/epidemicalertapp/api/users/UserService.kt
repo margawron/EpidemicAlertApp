@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface UserService {
     @GET("users/self")
-    suspend fun getSelfData(): ApiResponse<UserDto>
+    suspend fun getSelf(): ApiResponse<UserDto>
 }

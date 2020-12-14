@@ -7,12 +7,16 @@ import com.github.margawron.epidemicalertapp.api.auth.RegisterRequest
 import com.github.margawron.epidemicalertapp.api.auth.RegisterResponse
 import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.data.users.User
+import com.github.margawron.epidemicalertapp.data.users.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
 import java.time.Instant
 
-class AuthManager(private val authService: AuthService) {
+class AuthManager(
+    private val userRepository: UserRepository,
+    private val authService: AuthService
+    ) {
 
     private var token: String? = null
     private var loggedInUser: User? = null

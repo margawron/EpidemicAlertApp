@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.github.margawron.epidemicalertapp.api.users.UserDto
 
 @Entity
 @TypeConverters(
@@ -25,4 +26,11 @@ class User(
 
     @ColumnInfo(name = "account_state")
     val accountState: AccountState
-)
+){
+    companion object {
+        fun fromUserDto(userDto: UserDto): User{
+            val (id, username, useremail, role, accountCreationDate, accountExpirationDate, accountState) = userDto
+            return User(id!!, username, role, accountState)
+        }
+    }
+}
