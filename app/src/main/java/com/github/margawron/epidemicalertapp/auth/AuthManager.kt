@@ -38,6 +38,15 @@ class AuthManager(
             token = accessToken
             tokenExpiryInstant = expirationDate
             this.loginRequest = loginRequest
+            when(val apiResponse = userRepository.getSelfData()){
+                is ApiResponse.Success -> {
+                    val userDto = apiResponse.body!!
+                    loggedInUser = userRepository.createOrUpdateUserFrom(userDto)
+                }
+                is ApiResponse.Error -> {
+                    return apiResponse
+                }
+            }
 
         }
         return tokenResponse
