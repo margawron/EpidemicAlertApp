@@ -1,7 +1,7 @@
 package com.github.margawron.epidemicalertapp.di
 
 import com.github.margawron.epidemicalertapp.auth.AuthManager
-import com.github.margawron.epidemicalertapp.auth.AuthService
+import com.github.margawron.epidemicalertapp.api.auth.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
