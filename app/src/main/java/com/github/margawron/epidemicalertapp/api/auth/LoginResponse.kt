@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.api.auth.messages
+package com.github.margawron.epidemicalertapp.api.auth
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant

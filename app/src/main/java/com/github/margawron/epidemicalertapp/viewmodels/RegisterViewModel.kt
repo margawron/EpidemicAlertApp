@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
-import com.github.margawron.epidemicalertapp.api.auth.messages.RegisterRequest
+import com.github.margawron.epidemicalertapp.api.auth.RegisterRequest
 import com.github.margawron.epidemicalertapp.databinding.RegisterActivityBinding
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers

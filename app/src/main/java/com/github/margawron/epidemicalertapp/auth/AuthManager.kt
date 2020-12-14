@@ -1,10 +1,10 @@
 package com.github.margawron.epidemicalertapp.auth
 
 import com.github.margawron.epidemicalertapp.api.auth.AuthService
-import com.github.margawron.epidemicalertapp.api.auth.messages.LoginRequest
-import com.github.margawron.epidemicalertapp.api.auth.messages.LoginResponse
-import com.github.margawron.epidemicalertapp.api.auth.messages.RegisterRequest
-import com.github.margawron.epidemicalertapp.api.auth.messages.RegisterResponse
+import com.github.margawron.epidemicalertapp.api.auth.LoginRequest
+import com.github.margawron.epidemicalertapp.api.auth.LoginResponse
+import com.github.margawron.epidemicalertapp.api.auth.RegisterRequest
+import com.github.margawron.epidemicalertapp.api.auth.RegisterResponse
 import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.data.users.User
 import kotlinx.coroutines.Dispatchers
@@ -40,10 +40,11 @@ class AuthManager(private val authService: AuthService) {
     }
 
     suspend fun withValidToken(callback: () -> Any) {
-        val expiryInstant = tokenExpiryInstant ?: throw IllegalStateException("Auth manager was not correctly initialized")
-        if(expiryInstant.isAfter(Instant.now().minusSeconds(60))){
+        val expiryInstant = tokenExpiryInstant
+            ?: throw IllegalStateException("Auth manager was not correctly initialized")
+        if (expiryInstant.isAfter(Instant.now().minusSeconds(60))) {
             val capturedRequest = loginRequest
-            if(capturedRequest != null){
+            if (capturedRequest != null) {
                 loginUser(capturedRequest)
             }
         }
