@@ -21,6 +21,11 @@ import com.github.margawron.epidemicalertapp.data.users.User
             childColumns = ["pathogen_id"],
             parentColumns = ["id"]
         )
+    ],
+    indices = [
+        Index(value = ["user_id"], name = "AlertUserIndex"),
+        Index(value = ["suspect_id"], name = "AlertSuspectIndex"),
+        Index(value = ["pathogen_id"], name = "AlertPathogenIndex")
     ]
 )
 @TypeConverters(value = [
