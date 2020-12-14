@@ -5,6 +5,9 @@ import android.location.LocationListener
 import android.os.Bundle
 import android.util.Log
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -12,7 +15,9 @@ class ServiceLocationListener @Inject constructor(
     private val measurementRepository: MeasurementRepository
 ) : LocationListener {
     override fun onLocationChanged(location: Location?) {
-        measurementRepository.addLocationForLoggedInUser(location)
+        CoroutineScope(Dispatchers.IO).launch {
+            measurementRepository.addLocationForLoggedInUser(location)
+        }
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
