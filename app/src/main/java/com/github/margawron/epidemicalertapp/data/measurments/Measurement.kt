@@ -15,6 +15,7 @@ import java.time.Instant
     indices = [
         Index(value = ["server_side_id"], name = "MeasurementServerSideIdIndex", unique = true),
         Index(value = ["sent_to_server"], name = "MeasurementWasSentToServerIndex"),
+        Index(value = ["measurement_time"], name = "MeasurementTakenTimeIndex"),
         Index(value = ["owner_id"], name = "MeasurementOwnerIndex")
     ]
 )

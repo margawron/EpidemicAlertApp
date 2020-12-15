@@ -25,7 +25,7 @@ import com.github.margawron.epidemicalertapp.data.users.UserDao
         PoiLocation::class,
         ProximityMeasurement::class,
         User::class,
-    ], version = 1
+    ], version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
@@ -47,6 +47,10 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase = Room
             .databaseBuilder(context, AppDatabase::class.java, "epidemic-alert-db")
+            .addMigrations(DatabaseMigrations.addTimestampIndexToMeasurements())
             .build()
     }
+
+
+
 }
