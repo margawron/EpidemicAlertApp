@@ -3,8 +3,10 @@ package com.github.margawron.epidemicalertapp.data.measurments
 import android.location.Location
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.auth.AuthManager
+import com.github.margawron.epidemicalertapp.data.users.User
 import java.lang.IllegalStateException
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class MeasurementRepository @Inject constructor(
@@ -14,7 +16,7 @@ class MeasurementRepository @Inject constructor(
 ) {
     private var sentCounter = 0;
 
-    fun addLocationForLoggedInUser(location: Location){
+    suspend fun addLocationForLoggedInUser(location: Location){
         val user = authManager.getLoggedInUser()
             ?: throw IllegalStateException("User should not be null at this point")
         measurementDao.insert(
@@ -32,5 +34,11 @@ class MeasurementRepository @Inject constructor(
             )
         )
         sentCounter++
+    }
+
+    suspend fun getLocationsForDay(user: User, instant: Instant): List<Measurement>{
+        val startOfDay = instant.truncatedTo(ChronoUnit.DAYS);
+        val endOfDay = startOfDay.plus(1, ChronoUnit.DAYS)
+        return measurementDao.getMeasurementsFromDate(user.id, startOfDay, endOfDay)
     }
 }
