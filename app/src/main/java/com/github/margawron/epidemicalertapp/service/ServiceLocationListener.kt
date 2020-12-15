@@ -15,7 +15,8 @@ class ServiceLocationListener constructor(
     private val accurateMeasurementCallback: AccurateMeasurementCallback
 ) : LocationListener {
     override fun onLocationChanged(location: Location?) {
-        if (location == null || location.accuracy < 9) return
+        // TODO change to lower nubmer
+        if (location == null || location.accuracy < 21) return
         else accurateMeasurementCallback.onAccurateMeasurement(this)
 
         // TODO znalezc najbardziej dokładny pomiar
