@@ -38,7 +38,8 @@ class LocationForegroundService : Service() {
             getString(R.string.location_history_gathering_service),
             NotificationManager.IMPORTANCE_HIGH
         )
-        getSystemService(NotificationManager::class.java)!!.createNotificationChannel(
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager!!.createNotificationChannel(
             notificationChannel
         )
         val builder =
@@ -46,29 +47,29 @@ class LocationForegroundService : Service() {
         with(builder) {
             setContentTitle(getString(R.string.location_history_gathering_service))
             setSmallIcon(R.drawable.ic_service_location)
+            setOnlyAlertOnce(true)
         }
         val locationServiceNotification = builder.build()
         startForeground(1, locationServiceNotification)
 
-        createLocationListener()
+        createNotificationDescriptionRefreshingLocationListener(notificationManager, builder)
     }
 
-    private fun createLocationListener() {
+    private fun createNotificationDescriptionRefreshingLocationListener(notificationManager: NotificationManager, builder: Notification.Builder) {
         val locationManager = getSystemService(LocationManager::class.java)
         val permissionManager = PermissionManager.getInstance(this)
 
 
-        val serviceLocationListener = ServiceLocationListener(measurementRepository) {
+        val serviceLocationListener = ServiceLocationListener(measurementRepository,notificationManager, builder) {
             setupAccurateLocationListener(locationManager, it, permissionManager)
         }
+
         permissionManager.checkPermissions(
             Permissions.getNecessaryLocationPermissions(),
             object : PermissionManager.PermissionRequestListener {
 
                 @SuppressLint("MissingPermission")
                 override fun onPermissionGranted() {
-                    val locationProvider =
-                        locationManager.getProvider(LocationManager.GPS_PROVIDER)
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         1_000,
@@ -101,8 +102,6 @@ class LocationForegroundService : Service() {
 
                     @SuppressLint("MissingPermission")
                     override fun onPermissionGranted() {
-                        val locationProvider =
-                            locationManager.getProvider(LocationManager.GPS_PROVIDER)
                         CoroutineScope(Dispatchers.Main).launch {
                             locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
