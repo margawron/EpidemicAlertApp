@@ -1,6 +1,5 @@
 package com.github.margawron.epidemicalertapp.service
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -14,8 +13,10 @@ import com.github.margawron.epidemicalertapp.data.measurments.MeasurementReposit
 import com.intentfilter.androidpermissions.PermissionManager
 import com.intentfilter.androidpermissions.models.DeniedPermissions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import java.util.Collections.singleton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -61,7 +62,7 @@ class LocationForegroundService : Service() {
             setupAccurateLocationListener(locationManager, it, permissionManager)
         }
         permissionManager.checkPermissions(
-            singleton(Manifest.permission.ACCESS_FINE_LOCATION),
+            Permissions.getNecessaryLocationPermissions(),
             object : PermissionManager.PermissionRequestListener {
 
                 @SuppressLint("MissingPermission")
@@ -95,7 +96,7 @@ class LocationForegroundService : Service() {
             locationManager.removeUpdates(it)
             delay(50_000)
             permissionManager.checkPermissions(
-                singleton(Manifest.permission.ACCESS_FINE_LOCATION),
+                Permissions.getNecessaryLocationPermissions(),
                 object : PermissionManager.PermissionRequestListener {
 
                     @SuppressLint("MissingPermission")
@@ -122,6 +123,7 @@ class LocationForegroundService : Service() {
                 })
         }
     }
+
 }
 
 
