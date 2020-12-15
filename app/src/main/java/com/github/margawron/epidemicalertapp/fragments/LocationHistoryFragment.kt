@@ -7,23 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.auth.AuthManager
+import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import com.github.margawron.epidemicalertapp.databinding.LocationHistoryFragmentBinding
-import com.github.margawron.epidemicalertapp.viewmodels.LocationHistoryFragmentViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
+import java.time.ZoneId
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,10 +32,9 @@ class LocationHistoryFragment : Fragment() {
         fun newInstance() = LocationHistoryFragment()
     }
 
-    private lateinit var viewModel: LocationHistoryFragmentViewModel
-    private lateinit var binding: LocationHistoryFragmentBinding
     private lateinit var googleMap: GoogleMap
-    private lateinit var polyline: Polyline
+    private var polyline: Polyline? = null
+    private var isMapTouchedByUser: Boolean = false
 
     @Inject
     lateinit var measurementRepository: MeasurementRepository
@@ -44,44 +42,80 @@ class LocationHistoryFragment : Fragment() {
     @Inject
     lateinit var authManager: AuthManager
 
+    // TODO add bar for changing the selected day
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding =
+        val binding: LocationHistoryFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.location_history_fragment, container, false)
-        viewModel = ViewModelProvider(this).get(LocationHistoryFragmentViewModel::class.java)
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val fragment = childFragmentManager.findFragmentById(R.id.mapFragment)
+        val fragment = childFragmentManager.findFragmentById(R.id.locationHistoryMapFragment)
         val mapFragment = fragment as SupportMapFragment
         mapFragment.onCreate(savedInstanceState)
         mapFragment.getMapAsync {
             googleMap = it
-            createPolyline()
+            setupHistoryLineGenerator()
         }
+        binding.root.setOnClickListener{ isMapTouchedByUser = true }
+        return binding.root
     }
 
-    private fun createPolyline() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        isMapTouchedByUser = false
+    }
+
+    private fun setupHistoryLineGenerator() {
         CoroutineScope(Dispatchers.IO).launch {
             val todaysUserLocation = measurementRepository.getLocationsForDay(
                 authManager.getLoggedInUser()!!,
                 Instant.now()
             )
-            val polyLineOptions = with(PolylineOptions()) {
-                width(3.0f)
-                color(Color.RED)
-                geodesic(true)
+            withContext(Dispatchers.Main){
+                todaysUserLocation.observe(viewLifecycleOwner) { list ->
+                    val polyLineOptions = with(PolylineOptions()) {
+                        width(3.0f)
+                        color(Color.RED)
+                        geodesic(true)
+                    }
+                    setupMap(list, polyLineOptions)
+                }
             }
-            todaysUserLocation.forEach { polyLineOptions.add(LatLng(it.latitude, it.longitude)) }
-            withContext(Dispatchers.Main) {
-                polyline = googleMap.addPolyline(polyLineOptions)
+        }
+    }
 
+    private fun setupMap(
+        list: List<Measurement>,
+        polyLineOptions: PolylineOptions
+    ) {
+        if (list.isNotEmpty()) {
+            val mapBoundsBuilder = LatLngBounds.Builder()
+            list.forEach {
+                val latLng = LatLng(it.latitude, it.longitude)
+
+                polyLineOptions.add(latLng)
+
+                mapBoundsBuilder.include(latLng)
+
+                val markerOptions = MarkerOptions()
+                markerOptions.position(latLng)
+                markerOptions.title(
+                    it.measurementTime.atZone(ZoneId.systemDefault()).toString()
+                )
+
+                googleMap.addMarker(markerOptions)
+            }
+            polyline?.remove()
+            polyline = googleMap.addPolyline(polyLineOptions)
+            val latestLL = list.last()
+            if(!isMapTouchedByUser) {
+                googleMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(latestLL.latitude, latestLL.longitude),
+                        14.0f
+                    )
+                )
             }
         }
     }
