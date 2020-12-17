@@ -1,5 +1,6 @@
 package com.github.margawron.epidemicalertapp.fragments
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
@@ -17,11 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
 
@@ -35,6 +33,8 @@ class LocationHistoryFragment : Fragment() {
     private lateinit var googleMap: GoogleMap
     private var polyline: Polyline? = null
     private var isMapTouchedByUser: Boolean = false
+    private var displayedDate = LocalDate.now()
+    private lateinit var selectedDateUserLocation: LiveData<List<Measurement>>
 
     @Inject
     lateinit var measurementRepository: MeasurementRepository
@@ -42,7 +42,6 @@ class LocationHistoryFragment : Fragment() {
     @Inject
     lateinit var authManager: AuthManager
 
-    // TODO add bar for changing the selected day
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +56,16 @@ class LocationHistoryFragment : Fragment() {
             googleMap = it
             setupHistoryLineGenerator()
         }
-        binding.root.setOnClickListener{ isMapTouchedByUser = true }
+        binding.root.setOnClickListener { isMapTouchedByUser = true }
+        binding.locationFragmentFab.setOnClickListener {
+            val listener =
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    displayedDate = LocalDate.of(year, month+1, dayOfMonth)
+                    setupHistoryLineGenerator()
+                }
+            val pickerDialog = DatePickerDialog(requireContext(),listener, displayedDate.year, displayedDate.monthValue-1, displayedDate.dayOfMonth)
+            pickerDialog.show()
+        }
         return binding.root
     }
 
