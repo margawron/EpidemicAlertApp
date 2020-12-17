@@ -5,7 +5,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 object DatabaseMigrations {
 
-    fun addTimestampIndexToMeasurements(): Migration =
+    fun get() = listOf(
+        addTimestampIndexToMeasurements()
+    )
+
+    private fun addTimestampIndexToMeasurements(): Migration =
         object : Migration(1,2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE INDEX MeasurementTakenTimeIndex ON Measurement(measurement_time)")

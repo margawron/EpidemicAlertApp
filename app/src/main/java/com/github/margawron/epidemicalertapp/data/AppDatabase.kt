@@ -47,7 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase = Room
             .databaseBuilder(context, AppDatabase::class.java, "epidemic-alert-db")
-            .addMigrations(DatabaseMigrations.addTimestampIndexToMeasurements())
+            .addMigrations(*DatabaseMigrations.get().toTypedArray())
             .build()
     }
 
