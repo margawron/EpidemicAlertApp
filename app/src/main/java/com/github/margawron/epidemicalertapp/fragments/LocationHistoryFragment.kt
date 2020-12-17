@@ -111,13 +111,17 @@ class LocationHistoryFragment : Fragment() {
 
                 googleMap.addMarker(markerOptions)
             }
+            val latLngBounds = LatLngBounds.builder()
+            list.takeLast(10).forEach {
+                latLngBounds.include(LatLng(it.latitude,it.longitude))
+            }
             polyline = googleMap.addPolyline(polyLineOptions)
             val latestLL = list.last()
             if (!isMapTouchedByUser) {
                 googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(latestLL.latitude, latestLL.longitude),
-                        14.0f
+                        18.0f
                     )
                 )
             }
