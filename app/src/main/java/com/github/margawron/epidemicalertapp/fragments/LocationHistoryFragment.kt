@@ -75,21 +75,18 @@ class LocationHistoryFragment : Fragment() {
     }
 
     private fun setupHistoryLineGenerator() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val todaysUserLocation = measurementRepository.getLocationsForDay(
-                authManager.getLoggedInUser()!!,
-                Instant.now()
-            )
-            withContext(Dispatchers.Main){
-                todaysUserLocation.observe(viewLifecycleOwner) { list ->
-                    val polyLineOptions = with(PolylineOptions()) {
-                        width(3.0f)
-                        color(Color.RED)
-                        geodesic(true)
-                    }
-                    setupMap(list, polyLineOptions)
-                }
+        selectedDateUserLocation = measurementRepository.getLocationsForDay(
+            authManager.getLoggedInUser()!!,
+            displayedDate
+        )
+        selectedDateUserLocation.observe(viewLifecycleOwner) { list ->
+            val polyLineOptions = with(PolylineOptions()) {
+                width(3.0f)
+                color(Color.RED)
+                geodesic(true)
             }
+            googleMap.clear()
+            setupMap(list, polyLineOptions)
         }
     }
 
@@ -114,10 +111,9 @@ class LocationHistoryFragment : Fragment() {
 
                 googleMap.addMarker(markerOptions)
             }
-            polyline?.remove()
             polyline = googleMap.addPolyline(polyLineOptions)
             val latestLL = list.last()
-            if(!isMapTouchedByUser) {
+            if (!isMapTouchedByUser) {
                 googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(latestLL.latitude, latestLL.longitude),

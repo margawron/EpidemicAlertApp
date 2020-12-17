@@ -7,6 +7,7 @@ import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.users.User
 import java.lang.IllegalStateException
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -38,10 +39,10 @@ class MeasurementRepository @Inject constructor(
         sentCounter++
     }
 
-    fun getLocationsForDay(user: User, instant: Instant): LiveData<List<Measurement>>{
-        val startOfDay = instant.truncatedTo(ChronoUnit.DAYS);
+    fun getLocationsForDay(user: User, date: LocalDate): LiveData<List<Measurement>>{
+        val startOfDay = date.atStartOfDay(ZoneId.systemDefault());
         val endOfDay = startOfDay.plus(1, ChronoUnit.DAYS)
-        return measurementDao.getMeasurementsFromDate(user.id, startOfDay, endOfDay)
+        return measurementDao.getMeasurementsFromDate(user.id, startOfDay.toInstant(), endOfDay.toInstant())
     }
 
     suspend fun getLastUpdateForLoggedUser(): LiveData<Measurement?> = measurementDao.getLastLocationForUser(authManager.getLoggedInUser()!!.id)
