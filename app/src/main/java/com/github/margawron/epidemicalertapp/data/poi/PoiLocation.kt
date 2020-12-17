@@ -2,7 +2,7 @@ package com.github.margawron.epidemicalertapp.data.poi
 
 import androidx.room.*
 
-@Entity(tableName = "poi_location")
+@Entity
 @TypeConverters(value = [
     PoiTypeConverter::class
 ])

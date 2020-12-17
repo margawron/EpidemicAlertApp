@@ -55,15 +55,38 @@ class LocationForegroundService : Service() {
         createNotificationDescriptionRefreshingLocationListener(notificationManager, builder)
     }
 
-    private fun createNotificationDescriptionRefreshingLocationListener(notificationManager: NotificationManager, builder: Notification.Builder) {
+    private fun createNotificationDescriptionRefreshingLocationListener(
+        notificationManager: NotificationManager,
+        builder: Notification.Builder
+    ) {
         val locationManager = getSystemService(LocationManager::class.java)
         val permissionManager = PermissionManager.getInstance(this)
 
+        val serviceLocationListener =
+            ServiceLocationListener(measurementRepository, notificationManager, builder) {
+                setupNextMeasurementLocationListener(locationManager!!, it, permissionManager)
+            }
 
-        val serviceLocationListener = ServiceLocationListener(measurementRepository,notificationManager, builder) {
-            setupAccurateLocationListener(locationManager, it, permissionManager)
+        checkPermissions(permissionManager, locationManager, serviceLocationListener)
+    }
+
+    private fun setupNextMeasurementLocationListener(
+        locationManager: LocationManager,
+        it: ServiceLocationListener,
+        permissionManager: PermissionManager
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            locationManager.removeUpdates(it)
+            delay(20_000)
+            checkPermissions(permissionManager, locationManager, it)
         }
+    }
 
+    private fun checkPermissions(
+        permissionManager: PermissionManager,
+        locationManager: LocationManager,
+        serviceLocationListener: ServiceLocationListener
+    ) {
         permissionManager.checkPermissions(
             Permissions.getNecessaryLocationPermissions(),
             object : PermissionManager.PermissionRequestListener {
@@ -79,48 +102,9 @@ class LocationForegroundService : Service() {
                 }
 
                 override fun onPermissionDenied(deniedPermissions: DeniedPermissions) {
-                    for (permission in deniedPermissions) {
-                        if (permission.shouldShowRationale()) {
-
-                        }
-                    }
+                    stopSelf()
                 }
             })
-    }
-
-    private fun setupAccurateLocationListener(
-        locationManager: LocationManager,
-        it: ServiceLocationListener,
-        permissionManager: PermissionManager
-    ) {
-        CoroutineScope(Dispatchers.Main).launch {
-            locationManager.removeUpdates(it)
-            delay(50_000)
-            permissionManager.checkPermissions(
-                Permissions.getNecessaryLocationPermissions(),
-                object : PermissionManager.PermissionRequestListener {
-
-                    @SuppressLint("MissingPermission")
-                    override fun onPermissionGranted() {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                1_000,
-                                1.0f,
-                                it
-                            )
-                        }
-                    }
-
-                    override fun onPermissionDenied(deniedPermissions: DeniedPermissions) {
-                        for (permission in deniedPermissions) {
-                            if (permission.shouldShowRationale()) {
-
-                            }
-                        }
-                    }
-                })
-        }
     }
 
 }

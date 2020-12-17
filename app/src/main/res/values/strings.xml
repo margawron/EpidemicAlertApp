@@ -8,7 +8,7 @@
     <string name="password">Hasło:</string>
     <string name="repeat_password">Powtórz hasło:</string>
     <string name="email">Email:</string>
-    <string name="location_history_gathering_service">Usługa gromadząca historię lokalizacji</string>
+    <string name="location_history_gathering_service">Usługa historii lokalizacji</string>
 
     <string name="HERE_YOU_ARE">Tutaj jesteś</string>
     <string name="registration_successful">Rejestracja udała się!</string>

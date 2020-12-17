@@ -10,35 +10,63 @@ import com.github.margawron.epidemicalertapp.data.measurments.MeasurementReposit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class ServiceLocationListener constructor(
     private val measurementRepository: MeasurementRepository,
     private val notificationManager: NotificationManager,
     private val notificationBuilder: Notification.Builder,
-    private val accurateMeasurementCallback: AccurateMeasurementCallback
+    private val measurementRegisteredCallback: MeasurementRegisteredCallback
 ) : LocationListener {
 
     companion object{
         var lastLocation: Location? = null
     }
 
-    override fun onLocationChanged(location: Location?) {
-        // TODO change to lower number
+    var measurementsCount = 0
 
-        if(location == null || location.accuracy > 21) return
-        else accurateMeasurementCallback.onAccurateMeasurement(this)
-        if(lastLocation != null){
-            if(lastLocation?.distanceTo(location)!! > lastLocation?.accuracy!!){
-                CoroutineScope(Dispatchers.IO).launch {
-                    measurementRepository.addLocationForLoggedInUser(location)
+    override fun onLocationChanged(newLocation: Location?) {
+        val lastLocationMeasurements = mutableListOf<Location>()
+        measurementsCount++
+        if(newLocation == null || newLocation.accuracy > 21) return
+        lastLocationMeasurements.add(newLocation)
+        val size = lastLocationMeasurements.size
+        if(measurementsCount > 10 || size > 0){
+            measurementRegisteredCallback.onRegisteredMeasurement(this)
+            val highestAccuracyLocation = lastLocationMeasurements.minByOrNull { location -> location.accuracy }!!
+
+            if (lastLocation != null){
+                val accRMS = sqrt(lastLocationMeasurements.sumOf { location -> location.accuracy.pow(2).toDouble() } / size)
+                if(lastLocation!!.distanceTo(highestAccuracyLocation) > accRMS){
+                    registerLocation(highestAccuracyLocation)
+                    lastLocation = highestAccuracyLocation
                 }
-                notificationBuilder.setContentText("${LocalDateTime.now().toLocalTime()} Szer:${location.latitude} Dług:${location.longitude}")
-                notificationManager.notify(1, notificationBuilder.build())
+            }else{
+                registerLocation(highestAccuracyLocation)
+                lastLocation = highestAccuracyLocation
             }
         }
-        lastLocation = location
+    }
+
+    private fun registerLocation(location: Location) {
+        CoroutineScope(Dispatchers.IO).launch {
+            measurementRepository.addLocationForLoggedInUser(location)
+        }
+        val lat = if (location.latitude > 0) "N" else "S"
+        val long = if (location.latitude > 0) "E" else "W"
+        val time = LocalDateTime.ofInstant(Instant.ofEpochMilli(location.time), ZoneId.systemDefault())
+            .format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        notificationBuilder.setContentText(
+            "$time ${abs(location.latitude)}°$lat ${location.longitude}°$long"
+        )
+        notificationManager.notify(1, notificationBuilder.build())
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -53,7 +81,7 @@ class ServiceLocationListener constructor(
         Log.d("OE", "Provider disabled $provider")
     }
 
-    fun interface AccurateMeasurementCallback {
-        fun onAccurateMeasurement(it: ServiceLocationListener)
+    fun interface MeasurementRegisteredCallback {
+        fun onRegisteredMeasurement(it: ServiceLocationListener)
     }
 }
