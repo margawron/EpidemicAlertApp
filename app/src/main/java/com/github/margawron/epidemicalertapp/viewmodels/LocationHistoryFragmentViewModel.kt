@@ -11,6 +11,7 @@ import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -32,9 +33,17 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
     private lateinit var selectedDateUserLocation: LiveData<List<Measurement>>
     var isMapTouchedByUser = false
 
-    fun onMapReady() = OnMapReadyCallback {
-        googleMap = it
+    fun onMapReady() = OnMapReadyCallback { map ->
+        googleMap = map
         googleMap.uiSettings.isMapToolbarEnabled = false
+        googleMap.setOnCameraMoveStartedListener {
+            if(it == REASON_GESTURE){
+                isMapTouchedByUser = true
+            }
+        }
+        googleMap.setOnMapLongClickListener {
+            isMapTouchedByUser = false
+        }
         setupHistoryLineGenerator()
     }
 
