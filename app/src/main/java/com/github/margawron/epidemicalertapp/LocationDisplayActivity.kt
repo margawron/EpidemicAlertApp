@@ -24,28 +24,31 @@ class LocationDisplayActivity: AppCompatActivity() {
             val loginIntent = Intent(this, LoginActivity::class.java)
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(loginIntent)
-        }
+        } else {
 
-        val binding: LocationDisplayActivityBinding =
-            DataBindingUtil.setContentView(this, R.layout.location_display_activity)
+            val binding: LocationDisplayActivityBinding =
+                DataBindingUtil.setContentView(this, R.layout.location_display_activity)
 
-        val poiLocationFragment = PoiLocationFragment()
-        val locationHistoryFragment = LocationHistoryFragment()
-        val zoneFragment = ZoneFragment()
-        val alertFragment = AlertFragment()
-        val statisticsFragment = StatisticsFragment()
+            val poiLocationFragment = PoiLocationFragment()
+            val locationHistoryFragment = LocationHistoryFragment()
+            val zoneFragment = ZoneFragment()
+            val alertFragment = AlertFragment()
+            val statisticsFragment = StatisticsFragment()
 
-        changeCurrentlyDisplayedFragment(poiLocationFragment)
+            changeCurrentlyDisplayedFragment(poiLocationFragment)
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.ic_poi -> changeCurrentlyDisplayedFragment(poiLocationFragment)
-                R.id.ic_location_history -> changeCurrentlyDisplayedFragment(locationHistoryFragment)
-                R.id.ic_zones -> changeCurrentlyDisplayedFragment(zoneFragment)
-                R.id.ic_alerts -> changeCurrentlyDisplayedFragment(alertFragment)
-                R.id.ic_statistics -> changeCurrentlyDisplayedFragment(statisticsFragment)
+            binding.bottomNavigation.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.ic_poi -> changeCurrentlyDisplayedFragment(poiLocationFragment)
+                    R.id.ic_location_history -> changeCurrentlyDisplayedFragment(
+                        locationHistoryFragment
+                    )
+                    R.id.ic_zones -> changeCurrentlyDisplayedFragment(zoneFragment)
+                    R.id.ic_alerts -> changeCurrentlyDisplayedFragment(alertFragment)
+                    R.id.ic_statistics -> changeCurrentlyDisplayedFragment(statisticsFragment)
+                }
+                true
             }
-            true
         }
     }
 

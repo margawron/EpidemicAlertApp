@@ -66,5 +66,7 @@ class AuthManager(
 
     fun getToken(): String? = token
 
-    fun getLoggedInUser(): User? = loggedInUser
+    fun getLoggedInUser(): User {
+        return loggedInUser ?: throw IllegalStateException("User did not yet login")
+    }
 }
