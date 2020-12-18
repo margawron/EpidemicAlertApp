@@ -49,6 +49,21 @@ class LocationHistoryFragment : Fragment() {
         val binding: LocationHistoryFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.location_history_fragment, container, false)
         binding.lifecycleOwner = this
+
+        setupMap(savedInstanceState, binding)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        isMapTouchedByUser = false
+    }
+
+    private fun setupMap(
+        savedInstanceState: Bundle?,
+        binding: LocationHistoryFragmentBinding
+    ) {
         val fragment = childFragmentManager.findFragmentById(R.id.locationHistoryMapFragment)
         val mapFragment = fragment as SupportMapFragment
         mapFragment.onCreate(savedInstanceState)
@@ -60,18 +75,18 @@ class LocationHistoryFragment : Fragment() {
         binding.locationFragmentFab.setOnClickListener {
             val listener =
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    displayedDate = LocalDate.of(year, month+1, dayOfMonth)
+                    displayedDate = LocalDate.of(year, month + 1, dayOfMonth)
                     setupHistoryLineGenerator()
                 }
-            val pickerDialog = DatePickerDialog(requireContext(),listener, displayedDate.year, displayedDate.monthValue-1, displayedDate.dayOfMonth)
+            val pickerDialog = DatePickerDialog(
+                requireContext(),
+                listener,
+                displayedDate.year,
+                displayedDate.monthValue - 1,
+                displayedDate.dayOfMonth
+            )
             pickerDialog.show()
         }
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        isMapTouchedByUser = false
     }
 
     private fun setupHistoryLineGenerator() {
