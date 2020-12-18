@@ -102,7 +102,7 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
             googleMap.addPolyline(polyLineOptions)
             if (!isMapTouchedByUser) {
                 googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 20)
+                    CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 50)
                 )
             }
         }
