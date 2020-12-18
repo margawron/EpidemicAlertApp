@@ -34,6 +34,7 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
 
     fun onMapReady() = OnMapReadyCallback {
         googleMap = it
+        googleMap.uiSettings.isMapToolbarEnabled = false
         setupHistoryLineGenerator()
     }
 
