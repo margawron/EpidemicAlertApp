@@ -67,7 +67,7 @@ class LocationForegroundService : Service() {
                 setupNextMeasurementLocationListener(locationManager!!, it, permissionManager)
             }
 
-        checkPermissions(permissionManager, locationManager, serviceLocationListener)
+        checkPermissionsAndSetupUpdates(permissionManager, locationManager, serviceLocationListener)
     }
 
     private fun setupNextMeasurementLocationListener(
@@ -78,11 +78,11 @@ class LocationForegroundService : Service() {
         CoroutineScope(Dispatchers.Main).launch {
             locationManager.removeUpdates(it)
             delay(20_000)
-            checkPermissions(permissionManager, locationManager, it)
+            checkPermissionsAndSetupUpdates(permissionManager, locationManager, it)
         }
     }
 
-    private fun checkPermissions(
+    private fun checkPermissionsAndSetupUpdates(
         permissionManager: PermissionManager,
         locationManager: LocationManager,
         serviceLocationListener: ServiceLocationListener
