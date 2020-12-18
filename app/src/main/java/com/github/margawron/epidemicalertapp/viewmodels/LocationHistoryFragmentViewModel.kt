@@ -104,7 +104,7 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
                 googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(latestLL.latitude, latestLL.longitude),
-                        18.0f
+                        16.0f
                     )
                 )
             }
