@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.github.margawron.epidemicalertapp.viewmodels.LocationHistoryFragmentViewModel" />
+    </data>
+
     <RelativeLayout
+        android:onClick="@{() -> vm.mapTouchedByUser()}"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,18 +24,16 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
-            android:contentDescription="@string/select_date"
             android:backgroundTint="@color/colorPrimary"
+            android:contentDescription="@string/select_date"
+            android:onClick="@{() -> vm.changeDisplayedDate()}"
             android:src="@drawable/ic_calendar" />
 
         <fragment
             android:id="@+id/locationHistoryMapFragment"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".LocationDisplayActivity"/>
-
-
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 </layout>
