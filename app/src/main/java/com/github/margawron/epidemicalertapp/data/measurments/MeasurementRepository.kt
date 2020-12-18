@@ -2,6 +2,7 @@ package com.github.margawron.epidemicalertapp.data.measurments
 
 import android.location.Location
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.users.User
@@ -17,11 +18,15 @@ class MeasurementRepository @Inject constructor(
     private val measurementService: MeasurementService,
     private val authManager: AuthManager
 ) {
-    private var sentCounter = 0;
+    private var sentCounter = 0
+    private var lastLocation = MutableLiveData<Location?>(null)
 
-    suspend fun addLocationForLoggedInUser(location: Location){
+    fun getLastLocation() = lastLocation
+
+    suspend fun registerLocation(location: Location){
         val user = authManager.getLoggedInUser()
             ?: throw IllegalStateException("User should not be null at this point")
+        lastLocation.postValue(location)
         measurementDao.insert(
             Measurement(
                 null,

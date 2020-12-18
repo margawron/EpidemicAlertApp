@@ -26,14 +26,10 @@ class ServiceLocationListener constructor(
     private val measurementRegisteredCallback: MeasurementRegisteredCallback
 ) : LocationListener {
 
-    companion object{
-        var lastLocation: Location? = null
-    }
-
     var measurementsCount = 0
+    private val lastLocationMeasurements = mutableListOf<Location>()
 
     override fun onLocationChanged(newLocation: Location?) {
-        val lastLocationMeasurements = mutableListOf<Location>()
         measurementsCount++
         if(newLocation == null || newLocation.accuracy > 21) return
         lastLocationMeasurements.add(newLocation)
@@ -41,23 +37,21 @@ class ServiceLocationListener constructor(
         if(measurementsCount > 10 || size > 0){
             measurementRegisteredCallback.onRegisteredMeasurement(this)
             val highestAccuracyLocation = lastLocationMeasurements.minByOrNull { location -> location.accuracy }!!
-
+            val lastLocation = measurementRepository.getLastLocation().value
             if (lastLocation != null){
-                val accRMS = sqrt(lastLocationMeasurements.sumOf { location -> location.accuracy.pow(2).toDouble() } / size)
-                if(lastLocation!!.distanceTo(highestAccuracyLocation) > accRMS){
-                    registerLocation(highestAccuracyLocation)
-                    lastLocation = highestAccuracyLocation
+                if(lastLocation.distanceTo(highestAccuracyLocation) > lastLocation.accuracy + highestAccuracyLocation.accuracy){
+                    onLocationApproved(highestAccuracyLocation)
                 }
+                lastLocationMeasurements.clear()
             }else{
-                registerLocation(highestAccuracyLocation)
-                lastLocation = highestAccuracyLocation
+                onLocationApproved(highestAccuracyLocation)
             }
         }
     }
 
-    private fun registerLocation(location: Location) {
+    private fun onLocationApproved(location: Location) {
         CoroutineScope(Dispatchers.IO).launch {
-            measurementRepository.addLocationForLoggedInUser(location)
+            measurementRepository.registerLocation(location)
         }
         val lat = if (location.latitude > 0) "N" else "S"
         val long = if (location.latitude > 0) "E" else "W"
