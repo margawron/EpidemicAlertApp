@@ -15,8 +15,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 
 class ServiceLocationListener constructor(
@@ -37,7 +35,7 @@ class ServiceLocationListener constructor(
         if(measurementsCount > 10 || size > 0){
             measurementRegisteredCallback.onRegisteredMeasurement(this)
             val highestAccuracyLocation = lastLocationMeasurements.minByOrNull { location -> location.accuracy }!!
-            val lastLocation = measurementRepository.getLastLocation().value
+            val lastLocation = measurementRepository.getCurrentLocation().value
             if (lastLocation != null){
                 if(lastLocation.distanceTo(highestAccuracyLocation) > lastLocation.accuracy + highestAccuracyLocation.accuracy){
                     onLocationApproved(highestAccuracyLocation)

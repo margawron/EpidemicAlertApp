@@ -19,14 +19,17 @@ class MeasurementRepository @Inject constructor(
     private val authManager: AuthManager
 ) {
     private var sentCounter = 0
-    private var lastLocation = MutableLiveData<Location?>(null)
+    private val cachedLastLocation: MutableLiveData<Location> by lazy {
+        MutableLiveData<Location>()
+    }
 
-    fun getLastLocation() = lastLocation
+    fun getCurrentLocation(): LiveData<Location> {
+        return cachedLastLocation
+    }
 
     suspend fun registerLocation(location: Location){
         val user = authManager.getLoggedInUser()
-            ?: throw IllegalStateException("User should not be null at this point")
-        lastLocation.postValue(location)
+        cachedLastLocation.postValue(location)
         measurementDao.insert(
             Measurement(
                 null,
@@ -49,6 +52,4 @@ class MeasurementRepository @Inject constructor(
         val endOfDay = startOfDay.plus(1, ChronoUnit.DAYS)
         return measurementDao.getMeasurementsFromDate(user.id, startOfDay.toInstant(), endOfDay.toInstant())
     }
-
-    suspend fun getLastUpdateForLoggedUser(): LiveData<Measurement?> = measurementDao.getLastLocationForUser(authManager.getLoggedInUser()!!.id)
 }
