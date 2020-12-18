@@ -2,11 +2,9 @@ package com.github.margawron.epidemicalertapp.data.measurments
 
 import android.location.Location
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.users.User
-import java.lang.IllegalStateException
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -19,17 +17,9 @@ class MeasurementRepository @Inject constructor(
     private val authManager: AuthManager
 ) {
     private var sentCounter = 0
-    private val cachedLastLocation: MutableLiveData<Location> by lazy {
-        MutableLiveData<Location>()
-    }
-
-    fun getCurrentLocation(): LiveData<Location> {
-        return cachedLastLocation
-    }
 
     suspend fun registerLocation(location: Location){
         val user = authManager.getLoggedInUser()
-        cachedLastLocation.postValue(location)
         measurementDao.insert(
             Measurement(
                 null,
@@ -51,5 +41,10 @@ class MeasurementRepository @Inject constructor(
         val startOfDay = date.atStartOfDay(ZoneId.systemDefault());
         val endOfDay = startOfDay.plus(1, ChronoUnit.DAYS)
         return measurementDao.getMeasurementsFromDate(user.id, startOfDay.toInstant(), endOfDay.toInstant())
+    }
+
+    fun getLastLocation(): LiveData<Measurement?> {
+        val user = authManager.getLoggedInUser()
+        return measurementDao.getLastLocationForUser(user.id)
     }
 }

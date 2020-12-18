@@ -29,6 +29,8 @@ class PoiLocationFragment : Fragment() {
         val binding: PoiLocationFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.poi_location_fragment, container, false)
         binding.lifecycleOwner = this
+        binding.vm = viewModel
+
         val fragment = childFragmentManager.findFragmentById(R.id.locationPoiMapFragment)
         val mapFragment = fragment as SupportMapFragment
         mapFragment.onCreate(savedInstanceState)
