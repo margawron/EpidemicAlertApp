@@ -3,25 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.github.margawron.epidemicalertapp.viewmodels.ZoneFragmentViewModel" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/zone_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.ZoneFragment">
+        tools:context=".fragments.PoiLocationFragment">
 
-        <RelativeLayout
+        <fragment
+            android:id="@+id/locationZoneMapFragment"
+            class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zones"
-                android:layout_centerInParent="true" />
-        </RelativeLayout>
-
-    </FrameLayout>
+    </RelativeLayout>
 </layout>
