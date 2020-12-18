@@ -34,10 +34,7 @@ class LocationHistoryFragment : Fragment() {
 
         val fragment = childFragmentManager.findFragmentById(R.id.locationHistoryMapFragment)
         val mapFragment = fragment as SupportMapFragment
-        mapFragment.getMapAsync {
-            viewModel.googleMap = it
-            viewModel.refresh()
-        }
+        mapFragment.getMapAsync(viewModel.onMapReady())
         return binding.root
     }
 }
