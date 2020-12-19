@@ -14,8 +14,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LocationDisplayActivity: AppCompatActivity() {
 
+    companion object{
+        const val FRAGMENT_ID_KEY = "FRAGMENT_ID"
+    }
+
     @Inject
     lateinit var authManager: AuthManager
+    private val poiLocationFragment = PoiLocationFragment()
+    private val locationHistoryFragment = LocationHistoryFragment()
+    private val zoneFragment = ZoneFragment()
+    private val alertFragment = AlertFragment()
+    private val statisticsFragment = StatisticsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,26 +38,27 @@ class LocationDisplayActivity: AppCompatActivity() {
             val binding: LocationDisplayActivityBinding =
                 DataBindingUtil.setContentView(this, R.layout.location_display_activity)
 
-            val poiLocationFragment = PoiLocationFragment()
-            val locationHistoryFragment = LocationHistoryFragment()
-            val zoneFragment = ZoneFragment()
-            val alertFragment = AlertFragment()
-            val statisticsFragment = StatisticsFragment()
 
-            changeCurrentlyDisplayedFragment(poiLocationFragment)
+            val fragmentId = savedInstanceState?.getInt(FRAGMENT_ID_KEY) ?: R.id.ic_poi
+            selectFragmentById(fragmentId)
 
             binding.bottomNavigation.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.ic_poi -> changeCurrentlyDisplayedFragment(poiLocationFragment)
-                    R.id.ic_location_history -> changeCurrentlyDisplayedFragment(
-                        locationHistoryFragment
-                    )
-                    R.id.ic_zones -> changeCurrentlyDisplayedFragment(zoneFragment)
-                    R.id.ic_alerts -> changeCurrentlyDisplayedFragment(alertFragment)
-                    R.id.ic_statistics -> changeCurrentlyDisplayedFragment(statisticsFragment)
-                }
+                savedInstanceState?.putInt(FRAGMENT_ID_KEY, it.itemId)
+                selectFragmentById(it.itemId)
                 true
             }
+        }
+    }
+
+    private fun selectFragmentById(itemId: Int) {
+        when (itemId) {
+            R.id.ic_poi -> changeCurrentlyDisplayedFragment(poiLocationFragment)
+            R.id.ic_location_history -> changeCurrentlyDisplayedFragment(
+                locationHistoryFragment
+            )
+            R.id.ic_zones -> changeCurrentlyDisplayedFragment(zoneFragment)
+            R.id.ic_alerts -> changeCurrentlyDisplayedFragment(alertFragment)
+            R.id.ic_statistics -> changeCurrentlyDisplayedFragment(statisticsFragment)
         }
     }
 
