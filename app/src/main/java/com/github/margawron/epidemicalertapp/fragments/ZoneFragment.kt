@@ -11,7 +11,9 @@ import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.ZoneFragmentBinding
 import com.github.margawron.epidemicalertapp.viewmodels.ZoneFragmentViewModel
 import com.google.android.gms.maps.SupportMapFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ZoneFragment : Fragment() {
 
     companion object {
@@ -27,13 +29,13 @@ class ZoneFragment : Fragment() {
         val binding: ZoneFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.zone_fragment, container, false)
         binding.lifecycleOwner = this
+        binding.vm = viewModel
+        viewModel.lifecycleOwner = this
+
         val fragment = childFragmentManager.findFragmentById(R.id.locationZoneMapFragment)
         val mapFragment = fragment as SupportMapFragment
         mapFragment.onCreate(savedInstanceState)
-        mapFragment.getMapAsync {
-            viewModel.googleMap = it
-            viewModel.refresh()
-        }
+        mapFragment.getMapAsync(viewModel.mapReadyCallback())
 
         return binding.root
     }
