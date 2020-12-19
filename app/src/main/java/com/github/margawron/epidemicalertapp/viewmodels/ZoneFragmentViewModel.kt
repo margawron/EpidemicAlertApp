@@ -20,10 +20,10 @@ class ZoneFragmentViewModel @ViewModelInject internal constructor(
 
     fun mapReadyCallback() = OnMapReadyCallback{
         googleMap = it
-        showPointsOfInterests()
+        setupZones()
     }
 
-    private fun showPointsOfInterests(){
+    private fun setupZones(){
         val currentLocation = measurementRepository.getLastLocation()
         val observer = Observer<Measurement?>{ measurement ->
             measurement?.apply {
