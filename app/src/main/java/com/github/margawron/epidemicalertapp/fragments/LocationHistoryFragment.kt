@@ -29,6 +29,7 @@ class LocationHistoryFragment : Fragment() {
         val binding: LocationHistoryFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.location_history_fragment, container, false)
         binding.lifecycleOwner = this
+        viewModel.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
 
         val fragment = childFragmentManager.findFragmentById(R.id.locationHistoryMapFragment)

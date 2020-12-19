@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.github.margawron.epidemicalertapp.auth.AuthManager
@@ -27,7 +28,8 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
     @ActivityContext private val context: Context
 ) : ViewModel() {
 
-    lateinit var googleMap: GoogleMap
+    lateinit var lifecycleOwner: LifecycleOwner
+    private lateinit var googleMap: GoogleMap
 
     private var displayedDate = LocalDate.now()
     private lateinit var selectedDateUserLocation: LiveData<List<Measurement>>
@@ -72,7 +74,7 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
             authManager.getLoggedInUser(),
             displayedDate
         )
-        selectedDateUserLocation.observeForever { list ->
+        selectedDateUserLocation.observe(lifecycleOwner){ list ->
             val polyLineOptions = with(PolylineOptions()) {
                 width(3.0f)
                 color(Color.RED)
