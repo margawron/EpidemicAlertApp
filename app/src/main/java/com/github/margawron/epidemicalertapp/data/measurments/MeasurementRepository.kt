@@ -18,8 +18,13 @@ class MeasurementRepository @Inject constructor(
 ) {
     private var sentCounter = 0
 
+    private var cachedLastLocation: Location? = null
+
+    fun getCurrentLocation(): Location? = cachedLastLocation
+
     suspend fun registerLocation(location: Location){
         val user = authManager.getLoggedInUser()
+        cachedLastLocation = location
         measurementDao.insert(
             Measurement(
                 null,
