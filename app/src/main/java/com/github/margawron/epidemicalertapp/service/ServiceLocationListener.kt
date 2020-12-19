@@ -35,7 +35,7 @@ class ServiceLocationListener constructor(
         if(measurementsCount > 10 || size > 0){
             measurementRegisteredCallback.onRegisteredMeasurement(this)
             val highestAccuracyLocation = lastLocationMeasurements.minByOrNull { location -> location.accuracy }!!
-            val lastLocation = measurementRepository.getCurrentLocation().value
+            val lastLocation = measurementRepository.getCurrentLocation()
             if (lastLocation != null){
                 if(lastLocation.distanceTo(highestAccuracyLocation) > lastLocation.accuracy + highestAccuracyLocation.accuracy){
                     onLocationApproved(highestAccuracyLocation)
@@ -56,7 +56,7 @@ class ServiceLocationListener constructor(
         val time = LocalDateTime.ofInstant(Instant.ofEpochMilli(location.time), ZoneId.systemDefault())
             .format(DateTimeFormatter.ofPattern("HH:mm:ss"))
         notificationBuilder.setContentText(
-            "$time ${abs(location.latitude)}°$lat ${location.longitude}°$long"
+            "$time ${abs(location.latitude)}°$lat ${abs(location.longitude)}°$long"
         )
         notificationManager.notify(1, notificationBuilder.build())
     }
