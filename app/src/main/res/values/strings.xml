@@ -16,4 +16,8 @@
     <string name="too_short_password">Hasło musi mieć co najmniej 5 znaków</string>
     <string name="password_must_match">Hasła muszą się zgadzać</string>
     <string name="select_date">Wybierz datę</string>
+    <string name="serial_permission_warning">Aplikacja wymaga dodatkowych uprawnień w celu uzyskania numeru seryjnego urządzenia dla poprawnego działania systemu powiadomień push</string>
+    <string name="permission_not_granted">Nie uzyskano wymaganych uprawnień</string>
+    <string name="app_requires_gps">Aplikacja potrzebuje dostępu do systemu GPS w celu zbierania historii lokalizacji</string>
+    <string name="device_could_not_be_registered">Nie udało się zarejestrować urządzenia</string>
 </resources>

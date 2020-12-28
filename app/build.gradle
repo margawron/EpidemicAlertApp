@@ -106,9 +106,11 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // GMS
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     // JWT
     api 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -116,11 +118,6 @@ dependencies {
     runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
-
-    // JSOUP
-    implementation "org.jsoup:jsoup:1.13.1"
-
-
 
     // Testing
     testImplementation 'junit:junit:4.13.1'
