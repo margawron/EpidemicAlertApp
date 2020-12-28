@@ -4,7 +4,7 @@ data class LoginRequest(
     val login: String,
     val password: String,
     val fcmToken: String,
-    val manufacturer: String? = null,
-    val deviceName: String? = null,
-    val serialNumber: String? = null,
+    val manufacturer: String,
+    val deviceName: String,
+    val serialNumber: String,
 )

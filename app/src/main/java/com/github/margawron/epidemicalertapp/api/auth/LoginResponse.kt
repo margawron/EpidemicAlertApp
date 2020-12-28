@@ -9,5 +9,7 @@ data class LoginResponse(
     @JsonProperty(value = "expiration_date")
     val expirationDate: Instant,
     @JsonProperty(value = "token_type")
-    val tokenType: String
+    val tokenType: String,
+    @JsonProperty(value = "device_id")
+    val deviceId: Long,
 )

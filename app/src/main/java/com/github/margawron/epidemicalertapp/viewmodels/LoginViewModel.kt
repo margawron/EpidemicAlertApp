@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,27 +50,35 @@ class LoginViewModel @ViewModelInject internal constructor(
 
 
     fun onLoginClick() {
-        val builder = AlertDialog.Builder(context)
-        builder.setMessage(context.getString(R.string.serial_permission_warning))
-        builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
-            dialog.dismiss()
-            PermissionManager.getInstance(context)
-                .checkPermissions(singleton(Manifest.permission.READ_PHONE_STATE),
-                    object : PermissionManager.PermissionRequestListener {
-                        override fun onPermissionGranted() {
-                            login()
-                        }
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            login()
+        } else {
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage(context.getString(R.string.serial_permission_warning))
+            builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                PermissionManager.getInstance(context)
+                    .checkPermissions(singleton(Manifest.permission.READ_PHONE_STATE),
+                        object : PermissionManager.PermissionRequestListener {
+                            override fun onPermissionGranted() {
+                                login()
+                            }
 
-                        override fun onPermissionDenied(deniedPermissions: DeniedPermissions?) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.permission_not_granted),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                            override fun onPermissionDenied(deniedPermissions: DeniedPermissions?) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.permission_not_granted),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+            }
+            builder.create().show()
         }
-        builder.create().show()
     }
 
     @SuppressLint("MissingPermission")
@@ -93,7 +103,8 @@ class LoginViewModel @ViewModelInject internal constructor(
                             checkIfShouldRememberPassword()
                             val locationManager =
                                 context.getSystemService(LocationManager::class.java)
-                            val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                            val gpsEnabled =
+                                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                             if (!gpsEnabled) {
                                 with(AlertDialog.Builder(context)) {
                                     setMessage(context.getString(R.string.app_requires_gps))
@@ -115,7 +126,10 @@ class LoginViewModel @ViewModelInject internal constructor(
                         }
                         is ApiResponse.Error -> {
                             val errorBuilder = StringBuilder()
-                            response.errors.joinTo(errorBuilder, postfix = "\n") { e -> e.errorMessage }
+                            response.errors.joinTo(
+                                errorBuilder,
+                                postfix = "\n"
+                            ) { e -> e.errorMessage }
                             Toast.makeText(context, errorBuilder, Toast.LENGTH_SHORT).show()
                         }
                     }
