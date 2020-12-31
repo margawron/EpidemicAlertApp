@@ -49,6 +49,22 @@
             android:parentActivityName=".LoginActivity">
         </activity>
 
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+
+        <activity android:name=".ChangePrivilegesActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+        
+        <activity android:name=".MarkPlaceActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+
+        <activity android:name=".MarkUserActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+
         <service android:name=".service.LocationForegroundService"
             android:foregroundServiceType="location">
         </service>
