@@ -25,7 +25,7 @@ import java.time.Instant
 class Measurement(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "local_id")
-    val id: Int?,
+    val id: Long?,
 
     @ColumnInfo(name = "server_side_id")
     val serverId: Int?,
