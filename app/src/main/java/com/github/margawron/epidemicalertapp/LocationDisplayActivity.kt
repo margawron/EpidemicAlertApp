@@ -29,7 +29,7 @@ class LocationDisplayActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(authManager.getToken() == null){
+        if(!authManager.isUserLoggedIn()){
             val loginIntent = Intent(this, LoginActivity::class.java)
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(loginIntent)
