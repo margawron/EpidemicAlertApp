@@ -1,17 +1,13 @@
 package com.github.margawron.epidemicalertapp.viewmodels
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,13 +20,10 @@ import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.service.LocationForegroundService
 import com.github.margawron.epidemicalertapp.util.PreferenceHelper
 import com.google.firebase.messaging.FirebaseMessaging
-import com.intentfilter.androidpermissions.PermissionManager
-import com.intentfilter.androidpermissions.models.DeniedPermissions
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Collections.singleton
 
 
 class LoginViewModel @ViewModelInject internal constructor(
@@ -50,38 +43,9 @@ class LoginViewModel @ViewModelInject internal constructor(
 
 
     fun onLoginClick() {
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.READ_PHONE_STATE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            login()
-        } else {
-            val builder = AlertDialog.Builder(context)
-            builder.setMessage(context.getString(R.string.serial_permission_warning))
-            builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
-                dialog.dismiss()
-                PermissionManager.getInstance(context)
-                    .checkPermissions(singleton(Manifest.permission.READ_PHONE_STATE),
-                        object : PermissionManager.PermissionRequestListener {
-                            override fun onPermissionGranted() {
-                                login()
-                            }
-
-                            override fun onPermissionDenied(deniedPermissions: DeniedPermissions?) {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.permission_not_granted),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
-            }
-            builder.create().show()
-        }
+        login()
     }
 
-    @SuppressLint("MissingPermission")
     private fun login() {
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener {
@@ -94,7 +58,7 @@ class LoginViewModel @ViewModelInject internal constructor(
                                 it,
                                 Build.MANUFACTURER,
                                 Build.DEVICE,
-                                Build.getSerial()
+                                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
                             )
                         )
                     }
