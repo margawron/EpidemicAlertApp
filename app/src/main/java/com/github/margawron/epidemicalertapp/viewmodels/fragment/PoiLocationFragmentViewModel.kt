@@ -43,7 +43,7 @@ class PoiLocationFragmentViewModel @ViewModelInject internal constructor(
                     LatLng(
                         measurement.latitude,
                         measurement.longitude
-                    ), 10.0f
+                    ), 16.0f
                 )
                 googleMap.animateCamera(cameraUpdate)
                 currentLocation.removeObservers(lifecycleOwner)

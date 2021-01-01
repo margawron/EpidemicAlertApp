@@ -8,6 +8,8 @@ import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapter
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.api.users.UserService
+import com.github.margawron.epidemicalertapp.data.locations.LocationRepository
+import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,22 +34,26 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(objectMapper:ObjectMapper, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
-        .addCallAdapterFactory(ApiResponseCallAdapter())
-        .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-        .client(okHttpClient)
-        .build()
+    fun provideRetrofit(objectMapper: ObjectMapper, okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
+            .addCallAdapterFactory(ApiResponseCallAdapter())
+            .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+            .client(okHttpClient)
+            .build()
 
     @Singleton
     @Provides
-    fun provideUserService(retrofit: Retrofit): UserService = retrofit.create(UserService::class.java)
+    fun provideUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 
     @Singleton
     @Provides
-    fun provideMeasurementService(retrofit: Retrofit): MeasurementService = retrofit.create(MeasurementService::class.java)
+    fun provideMeasurementService(retrofit: Retrofit): MeasurementService =
+        retrofit.create(MeasurementService::class.java)
 
     @Singleton
     @Provides
-    fun provideLocationService(retrofit: Retrofit): LocationService = retrofit.create(LocationService::class.java)
+    fun provideLocationService(retrofit: Retrofit): LocationService =
+        retrofit.create(LocationService::class.java)
 }

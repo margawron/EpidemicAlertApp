@@ -38,4 +38,5 @@
     <string name="location_not_selected">Nie wybrano lokalizacji</string>
     <string name="location_added">Lokalizacja dodana</string>
     <string name="location_to_delete_not_selected">Nie wybrano lokalizacji do usunięcia</string>
+    <string name="location_delete_success">Lokalizacja usunięta pomyślnie</string>
 </resources>
