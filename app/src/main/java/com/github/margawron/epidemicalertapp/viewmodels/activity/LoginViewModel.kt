@@ -89,11 +89,7 @@ class LoginViewModel @ViewModelInject internal constructor(
                             }
                         }
                         is ApiResponse.Error -> {
-                            val errorBuilder = StringBuilder()
-                            response.errors.joinTo(
-                                errorBuilder,
-                                postfix = "\n"
-                            ) { e -> e.errorMessage }
+                            val errorBuilder = ApiResponse.errorToMessage(response)
                             Toast.makeText(context, errorBuilder, Toast.LENGTH_SHORT).show()
                         }
                     }

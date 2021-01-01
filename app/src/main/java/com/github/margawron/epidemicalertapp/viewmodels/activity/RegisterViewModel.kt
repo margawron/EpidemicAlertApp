@@ -59,8 +59,7 @@ class RegisterViewModel @ViewModelInject internal constructor(
                             (context as Activity).finish()
                         }
                         is ApiResponse.Error -> {
-                            val errorBuilder = StringBuilder()
-                            apiResponse.errors.joinTo(errorBuilder, separator = "\n") {e -> e.errorMessage}
+                            val errorBuilder = ApiResponse.errorToMessage(apiResponse)
                             with(AlertDialog.Builder(context)){
                                 setMessage(errorBuilder)
                                 setNegativeButton(android.R.string.ok){ dialog, _ ->
