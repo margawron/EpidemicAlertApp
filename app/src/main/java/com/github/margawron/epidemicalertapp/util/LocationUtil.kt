@@ -47,7 +47,7 @@ object LocationUtil {
                 }
                 LocationType.QUARANTINE -> {
                     markerOptions
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                        .icon(BitmapDescriptorFactory.defaultMarker(50.0f))
                 }
             }
             val marker = googleMap.addMarker(markerOptions)

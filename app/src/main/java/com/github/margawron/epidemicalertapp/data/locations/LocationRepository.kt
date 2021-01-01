@@ -19,24 +19,48 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.collections.set
 
+@Singleton
 class LocationRepository @Inject constructor(
     private val locationService: LocationService,
     private val measurementRepository: MeasurementRepository,
 ) {
 
-    private val locations = mutableMapOf<Long, LocationDto>()
+    private var locations = mutableMapOf<Long, LocationDto>()
     fun getLocations(): Collection<LocationDto> = locations.values
 
     private val mutableLiveData = MutableLiveData<Collection<LocationDto>>()
     fun getLocationsLiveData(): LiveData<Collection<LocationDto>> = mutableLiveData
 
-    private fun addLocations(vararg locations: LocationDto) {
-        locations.forEach {
+    private fun addLocations(incomingLocations: Collection<LocationDto>) {
+        incomingLocations.forEach {
             this.locations[it.id!!] = it
         }
-        mutableLiveData.postValue(this.locations.values)
+        mutableLiveData.postValue(locations.values)
+    }
+
+    private fun refreshLocations(incomingLocations: Collection<LocationDto>){
+        val pairs = incomingLocations.map { it.id!! to it }.toTypedArray()
+        locations = mutableMapOf(*(pairs))
+        mutableLiveData.postValue(locations.values)
+    }
+
+    private fun removeLocation(locationId: Long){
+        locations.remove(locationId)
+        mutableLiveData.postValue(locations.values)
+    }
+
+    suspend fun removeLocationById(locationId: Long): ApiResponse<Any> {
+        val response = locationService.deleteLocation(locationId)
+        when(response) {
+            is ApiResponse.Success -> {
+                removeLocation(locationId)
+            }
+            else -> {}
+        }
+        return response
     }
 
     suspend fun fetchLocationNearby(context: Context, lifecycleOwner: LifecycleOwner) {
@@ -47,7 +71,7 @@ class LocationRepository @Inject constructor(
                     when (val response =
                         locationService.getNearbyLocations(it.latitude, it.longitude)) {
                         is ApiResponse.Success -> {
-                            addLocations(*(response.body!!.toTypedArray()))
+                            refreshLocations(response.body!!)
                         }
                         is ApiResponse.Error -> {
                             val error = ApiResponse.errorToMessage(response)
@@ -82,7 +106,7 @@ class LocationRepository @Inject constructor(
         val apiResponse = locationService.createNewLocation(locationDto)
         if (apiResponse is ApiResponse.Success) {
             apiResponse.body?.let {
-                addLocations(it)
+                addLocations(listOf(it))
             }
         }
         return apiResponse

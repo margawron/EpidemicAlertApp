@@ -13,6 +13,6 @@ interface LocationService {
     suspend fun createNewLocation(@Body locationDto: LocationDto): ApiResponse<LocationDto>
 
     @DELETE("location/{id}")
-    suspend fun deleteLocation(@Path("id") locationId: Long): ApiResponse<Nothing>
+    suspend fun deleteLocation(@Path("id") locationId: Long): ApiResponse<Any>
 
 }

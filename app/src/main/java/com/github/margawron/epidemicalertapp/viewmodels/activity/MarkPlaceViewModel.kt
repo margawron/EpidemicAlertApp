@@ -19,9 +19,13 @@ import com.github.margawron.epidemicalertapp.util.LocationUtil
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Instant
 
 class MarkPlaceViewModel @ViewModelInject internal constructor(
@@ -54,7 +58,12 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
             AddLocationDialog() { description: String, expiryTime: Instant, locationType: LocationType ->
                 val latLng = marker!!.position
                 viewModelScope.launch {
-                    when(val response = locationRepository.createLocation(latLng, description, expiryTime, locationType)){
+                    when (val response = locationRepository.createLocation(
+                        latLng,
+                        description,
+                        expiryTime,
+                        locationType
+                    )) {
                         is ApiResponse.Success -> {
                             Toast.makeText(
                                 appCompatActivity,
@@ -73,9 +82,26 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
     }
 
     fun removeLocation() {
-        if(markerToRemove != null) {
+        if (markerToRemove != null) {
             val locationDto = markerToRemove!!.tag as LocationDto
-            val locationId = locationDto.id
+            val locationId = locationDto.id!!
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    when (val response = locationRepository.removeLocationById(locationId)) {
+                        is ApiResponse.Success -> {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.location_delete_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is ApiResponse.Error -> {
+                            val error = ApiResponse.errorToMessage(response)
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
 
         } else {
             Toast.makeText(
@@ -95,7 +121,7 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
         }
     }
 
-    private fun setupLocationsListener(){
+    private fun setupLocationsListener() {
         val observer = LocationUtil.getLocationsLiveDataObserver(googleMap)
         locationRepository.getLocationsLiveData().observe(appCompatActivity, observer)
     }
@@ -106,7 +132,7 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
             marker?.remove()
             val markerOptions = MarkerOptions()
                 .position(it)
-                .title("Wybrana pozycja")
+                .title(context.getString(R.string.selected_position))
                 .snippet(LocationUtil.getFormattedLatLng(it))
             marker = googleMap.addMarker(markerOptions)
         }
