@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
-    val viewModel by viewModels<SettingsViewModel>()
+    private val viewModel by viewModels<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,5 +20,7 @@ class SettingsActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.settings_activity)
         binding.lifecycleOwner = this
         binding.vm = viewModel
+
+        viewModel.activity = this
     }
 }

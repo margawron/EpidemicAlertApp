@@ -3,6 +3,7 @@
     <string name="app_error">Błąd</string>
     <string name="register">Zarejestruj</string>
     <string name="remember_me">Zapamiętaj mnie</string>
+    <string name="forget_credentials">Zapomnij dane logowania</string>
     <string name="login">Zaloguj</string>
     <string name="username">Nazwa użytkownika:</string>
     <string name="password">Hasło:</string>
@@ -21,4 +22,5 @@
     <string name="app_requires_gps">Aplikacja potrzebuje dostępu do systemu GPS w celu zbierania historii lokalizacji</string>
     <string name="device_could_not_be_registered">Nie udało się zarejestrować urządzenia</string>
     <string name="turn_off_location_service">Wyłącz usługę gromadzenia aktualizacji</string>
+    <string name="logout">Wyloguj</string>
 </resources>

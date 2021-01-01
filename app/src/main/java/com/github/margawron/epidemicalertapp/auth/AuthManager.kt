@@ -71,4 +71,11 @@ class AuthManager(
     }
 
     fun isUserLoggedIn(): Boolean = loggedInUser != null
+
+    fun logout() {
+        loggedInUser = null
+        token = null
+        tokenExpiryInstant = null
+        loginRequest = null
+    }
 }
