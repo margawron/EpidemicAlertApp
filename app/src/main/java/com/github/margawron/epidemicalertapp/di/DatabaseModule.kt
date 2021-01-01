@@ -5,7 +5,6 @@ import com.github.margawron.epidemicalertapp.data.AppDatabase
 import com.github.margawron.epidemicalertapp.data.alerts.AlertDao
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.pathogens.PathogenDao
-import com.github.margawron.epidemicalertapp.data.poi.PoiLocationDao
 import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.UserDao
 import dagger.Module
@@ -44,7 +43,4 @@ class DatabaseModule {
     @Provides
     fun provideProximityMeasurementDao(appDatabase: AppDatabase): ProximityMeasurementDao = appDatabase.proximityMeasurementDao()
 
-    @Singleton
-    @Provides
-    fun providePoiLocationDao(appDatabase: AppDatabase): PoiLocationDao = appDatabase.poiLocationDao()
 }

@@ -7,9 +7,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.github.margawron.epidemicalertapp.R
-import com.github.margawron.epidemicalertapp.api.location.LocationType
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
+import com.github.margawron.epidemicalertapp.api.location.LocationType
 import com.github.margawron.epidemicalertapp.dialogs.AddLocationDialog
 import com.github.margawron.epidemicalertapp.util.LocationUtil
 import com.google.android.gms.maps.CameraUpdateFactory
