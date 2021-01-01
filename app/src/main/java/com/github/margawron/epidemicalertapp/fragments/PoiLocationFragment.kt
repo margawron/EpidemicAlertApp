@@ -31,6 +31,7 @@ class PoiLocationFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.vm = viewModel
         viewModel.lifecycleOwner = this
+        viewModel.context = requireContext()
 
         val fragment = childFragmentManager.findFragmentById(R.id.locationPoiMapFragment)
         val mapFragment = fragment as SupportMapFragment

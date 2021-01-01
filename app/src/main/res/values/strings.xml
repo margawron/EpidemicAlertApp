@@ -36,4 +36,6 @@
     <string name="expiry_date_not_selected">Data wygaśnięcia nie została wybrana</string>
     <string name="description_not_set">Opis nie został ustawiony</string>
     <string name="location_not_selected">Nie wybrano lokalizacji</string>
+    <string name="location_added">Lokalizacja dodana</string>
+    <string name="location_to_delete_not_selected">Nie wybrano lokalizacji do usunięcia</string>
 </resources>

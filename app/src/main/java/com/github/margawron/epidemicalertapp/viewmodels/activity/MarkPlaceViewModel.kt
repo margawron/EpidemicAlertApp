@@ -6,22 +6,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.margawron.epidemicalertapp.R
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
+import com.github.margawron.epidemicalertapp.api.location.LocationDto
+import com.github.margawron.epidemicalertapp.api.location.LocationType
+import com.github.margawron.epidemicalertapp.data.locations.LocationRepository
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
-import com.github.margawron.epidemicalertapp.api.location.LocationType
 import com.github.margawron.epidemicalertapp.dialogs.AddLocationDialog
 import com.github.margawron.epidemicalertapp.util.LocationUtil
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.launch
 import java.time.Instant
 
 class MarkPlaceViewModel @ViewModelInject internal constructor(
+    private val locationRepository: LocationRepository,
     private val measurementRepository: MeasurementRepository,
     @ActivityContext private val context: Context
 ) : ViewModel() {
@@ -36,6 +40,7 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
         setupInitialZoom()
         setupPlaceSelector()
         setupMarkerRemoval()
+        setupLocationsListener()
     }
 
     fun addLocation() {
@@ -47,20 +52,38 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
             ).show()
         } else {
             AddLocationDialog() { description: String, expiryTime: Instant, locationType: LocationType ->
-                Toast.makeText(
-                    appCompatActivity,
-                    "$description $expiryTime $locationType",
-                    Toast.LENGTH_SHORT
-                ).show()
                 val latLng = marker!!.position
-
+                viewModelScope.launch {
+                    when(val response = locationRepository.createLocation(latLng, description, expiryTime, locationType)){
+                        is ApiResponse.Success -> {
+                            Toast.makeText(
+                                appCompatActivity,
+                                context.getString(R.string.location_added),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is ApiResponse.Error -> {
+                            val error = ApiResponse.errorToMessage(response)
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }.show(appCompatActivity.supportFragmentManager, "add location dialog")
         }
     }
 
     fun removeLocation() {
-        // get id from tag
-        // markerToRemove?.tag
+        if(markerToRemove != null) {
+            val locationDto = markerToRemove!!.tag as LocationDto
+            val locationId = locationDto.id
+
+        } else {
+            Toast.makeText(
+                appCompatActivity,
+                context.getString(R.string.location_to_delete_not_selected),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun setupMarkerRemoval() {
@@ -68,9 +91,15 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
             marker?.remove()
             marker = null
             markerToRemove = it
-            true
+            false
         }
     }
+
+    private fun setupLocationsListener(){
+        val observer = LocationUtil.getLocationsLiveDataObserver(googleMap)
+        locationRepository.getLocationsLiveData().observe(appCompatActivity, observer)
+    }
+
 
     private fun setupPlaceSelector() {
         googleMap.setOnMapLongClickListener {
