@@ -20,4 +20,5 @@
     <string name="permission_not_granted">Nie uzyskano wymaganych uprawnień</string>
     <string name="app_requires_gps">Aplikacja potrzebuje dostępu do systemu GPS w celu zbierania historii lokalizacji</string>
     <string name="device_could_not_be_registered">Nie udało się zarejestrować urządzenia</string>
+    <string name="turn_off_location_service">Wyłącz usługę gromadzenia aktualizacji</string>
 </resources>

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             tools:context=".LoginActivity">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_label_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.100000024" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_label_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_input_username" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_label_password2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_input_password" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_label_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_label_email" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_button_register"
                 android:layout_width="290dp"
                 android:layout_height="65dp"

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/login_label_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login_label_username" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/login_label_password"
                 android:layout_width="141dp"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/login_label_password"
                 tools:ignore="LabelFor" />
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/login_check_remeber_me"
                 android:layout_width="198dp"
                 android:layout_height="65dp"
@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login_input_password" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_button_login"
                 android:layout_width="290dp"
                 android:layout_height="65dp"
@@ -96,7 +96,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login_check_remeber_me" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_button_register"
                 android:layout_width="290dp"
                 android:layout_height="65dp"
