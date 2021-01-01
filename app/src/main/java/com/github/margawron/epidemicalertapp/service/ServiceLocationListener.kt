@@ -7,15 +7,10 @@ import android.location.LocationListener
 import android.os.Bundle
 import android.util.Log
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
+import com.github.margawron.epidemicalertapp.util.LocationUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import kotlin.math.abs
-
 
 class ServiceLocationListener constructor(
     private val measurementRepository: MeasurementRepository,
@@ -51,13 +46,8 @@ class ServiceLocationListener constructor(
         CoroutineScope(Dispatchers.IO).launch {
             measurementRepository.registerLocation(location)
         }
-        val lat = if (location.latitude > 0) "N" else "S"
-        val long = if (location.latitude > 0) "E" else "W"
-        val time = LocalDateTime.ofInstant(Instant.ofEpochMilli(location.time), ZoneId.systemDefault())
-            .format(DateTimeFormatter.ofPattern("HH:mm:ss"))
-        notificationBuilder.setContentText(
-            "$time ${abs(location.latitude)}°$lat ${abs(location.longitude)}°$long"
-        )
+        val time = LocationUtil.getFormattedLocation(location)
+        notificationBuilder.setContentText(time)
         notificationManager.notify(1, notificationBuilder.build())
     }
 

@@ -23,4 +23,5 @@
     <string name="device_could_not_be_registered">Nie udało się zarejestrować urządzenia</string>
     <string name="turn_off_location_service">Wyłącz usługę gromadzenia aktualizacji</string>
     <string name="logout">Wyloguj</string>
+    <string name="add_location">Dodaj lokalizację</string>
 </resources>
