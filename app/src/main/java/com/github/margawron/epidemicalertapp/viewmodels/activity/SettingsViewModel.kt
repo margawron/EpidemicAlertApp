@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.viewmodels
+package com.github.margawron.epidemicalertapp.viewmodels.activity
 
 import android.content.Context
 import android.content.Intent

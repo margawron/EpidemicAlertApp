@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.margawron.epidemicalertapp.R
-import com.github.margawron.epidemicalertapp.viewmodels.StatisticsFragmentViewModel
+import com.github.margawron.epidemicalertapp.viewmodels.fragment.StatisticsFragmentViewModel
 
 class StatisticsFragment : Fragment() {
 

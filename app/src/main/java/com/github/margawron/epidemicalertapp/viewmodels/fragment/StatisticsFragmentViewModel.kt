@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.viewmodels
+package com.github.margawron.epidemicalertapp.viewmodels.fragment
 
 import androidx.lifecycle.ViewModel
 

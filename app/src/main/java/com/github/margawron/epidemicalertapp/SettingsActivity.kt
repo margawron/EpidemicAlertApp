@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.github.margawron.epidemicalertapp.databinding.SettingsActivityBinding
-import com.github.margawron.epidemicalertapp.viewmodels.SettingsViewModel
+import com.github.margawron.epidemicalertapp.viewmodels.activity.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.github.margawron.epidemicalertapp.viewmodels.PoiLocationFragmentViewModel" />
+            type="com.github.margawron.epidemicalertapp.viewmodels.fragment.PoiLocationFragmentViewModel" />
     </data>
 
     <RelativeLayout

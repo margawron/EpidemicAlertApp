@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.LocationHistoryFragmentBinding
-import com.github.margawron.epidemicalertapp.viewmodels.LocationHistoryFragmentViewModel
+import com.github.margawron.epidemicalertapp.viewmodels.fragment.LocationHistoryFragmentViewModel
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 

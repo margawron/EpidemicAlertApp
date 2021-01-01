@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.PoiLocationFragmentBinding
-import com.github.margawron.epidemicalertapp.viewmodels.PoiLocationFragmentViewModel
+import com.github.margawron.epidemicalertapp.viewmodels.fragment.PoiLocationFragmentViewModel
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 

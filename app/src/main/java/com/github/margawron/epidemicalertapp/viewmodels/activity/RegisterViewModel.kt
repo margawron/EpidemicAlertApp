@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.viewmodels
+package com.github.margawron.epidemicalertapp.viewmodels.activity
 
 import android.app.Activity
 import android.app.AlertDialog
