@@ -21,7 +21,7 @@ class MarkPlaceActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.mark_place_activity)
         binding.lifecycleOwner = this
         binding.vm = viewModel
-        viewModel.lifecycleOwner = this
+        viewModel.appCompatActivity = this
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mark_place_map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(viewModel.mapReadyCallback())

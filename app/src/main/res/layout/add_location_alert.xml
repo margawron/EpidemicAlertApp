@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.github.margawron.epidemicalertapp.viewmodels.dialogs.AddLocationViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/add_location_input_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="@string/description"
+            android:autofillHints="yes"
+            android:text="@={vm.description}"/>
+
+        <DatePicker
+            android:id="@+id/add_location_input_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/expiry_date"
+            android:datePickerMode="calendar"
+            android:day="@={vm.day}"
+            android:month="@={vm.month}"
+            android:year="@={vm.year}"
+            android:spinnersShown="true"/>
+
+        <Spinner
+            android:id="@+id/add_location_spinner_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@{vm.items}"
+            android:selectedItemPosition="@={vm.locationTypeOrdinal}"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"/>
+
+        <Button
+            android:id="@+id/add_location_button_accept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/submit"
+            android:onClick="@{() -> vm.onAccept()}" />
+
+        <Button
+            android:id="@+id/add_location_button_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="@{() -> vm.onCancel()}"
+            android:text="@string/cancel" />
+
+    </LinearLayout>
+</layout>

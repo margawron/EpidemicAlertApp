@@ -1,4 +1,8 @@
 <resources>
+
+    <string name="location_type_info">Info</string>
+    <string name="location_type_quarantine">Kwarantanna</string>
+
     <string name="app_name">Ostrzeżenie Epidemiczne</string>
     <string name="app_error">Błąd</string>
     <string name="register">Zarejestruj</string>
@@ -24,4 +28,12 @@
     <string name="turn_off_location_service">Wyłącz usługę gromadzenia aktualizacji</string>
     <string name="logout">Wyloguj</string>
     <string name="add_location">Dodaj lokalizację</string>
+    <string name="remove_location">Usuń lokalizację</string>
+    <string name="description">Opis</string>
+    <string name="submit">Zatwierdź</string>
+    <string name="cancel">Anuluj</string>
+    <string name="expiry_date">Czas wygaśnięcia</string>
+    <string name="expiry_date_not_selected">Data wygaśnięcia nie została wybrana</string>
+    <string name="description_not_set">Opis nie został ustawiony</string>
+    <string name="location_not_selected">Nie wybrano lokalizacji</string>
 </resources>
