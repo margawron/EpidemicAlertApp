@@ -10,8 +10,6 @@ import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.pathogens.Pathogen
 import com.github.margawron.epidemicalertapp.data.pathogens.PathogenDao
-import com.github.margawron.epidemicalertapp.data.poi.PoiLocation
-import com.github.margawron.epidemicalertapp.data.poi.PoiLocationDao
 import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurement
 import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.User
@@ -22,7 +20,6 @@ import com.github.margawron.epidemicalertapp.data.users.UserDao
         Alert::class,
         Measurement::class,
         Pathogen::class,
-        PoiLocation::class,
         ProximityMeasurement::class,
         User::class,
     ], version = 1
@@ -33,7 +30,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun pathogenDao(): PathogenDao
     abstract fun alertDao(): AlertDao
     abstract fun proximityMeasurementDao(): ProximityMeasurementDao
-    abstract fun poiLocationDao(): PoiLocationDao
 
     companion object {
         @Volatile

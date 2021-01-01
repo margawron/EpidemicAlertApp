@@ -10,7 +10,7 @@ interface LocationService {
     suspend fun getNearbyLocations(@Query("lat") latitude: Double, @Query("lng") longitude: Double): ApiResponse<List<LocationDto>>
 
     @POST("location")
-    suspend fun createNewLocation(locationDto: LocationDto): ApiResponse<LocationDto>
+    suspend fun createNewLocation(@Body locationDto: LocationDto): ApiResponse<LocationDto>
 
     @DELETE("location/{id}")
     suspend fun deleteLocation(@Path("id") locationId: Long): ApiResponse<Nothing>
