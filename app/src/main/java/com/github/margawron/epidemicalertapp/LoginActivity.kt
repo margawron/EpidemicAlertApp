@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.github.margawron.epidemicalertapp.databinding.LoginActivityBinding
-import com.github.margawron.epidemicalertapp.viewmodels.activity.LoginViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.activity.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

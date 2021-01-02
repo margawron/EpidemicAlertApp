@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.margawron.epidemicalertapp.viewmodels.fragment.AlertFragmentViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment.AlertFragmentViewModel
 import com.github.margawron.epidemicalertapp.R
 
 class AlertFragment : Fragment() {

@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.github.margawron.epidemicalertapp.viewmodels.fragment.LocationHistoryFragmentViewModel" />
+            type="com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment.LocationHistoryFragmentViewModel" />
     </data>
 
     <RelativeLayout

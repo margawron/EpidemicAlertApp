@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.AddLocationAlertBinding
-import com.github.margawron.epidemicalertapp.viewmodels.dialogs.AddLocationViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.dialogs.AddLocationViewModel
 
 class AddLocationDialog internal constructor(
     private val onAddLocationResult: AddLocationViewModel.OnAddLocationResult
-): AppCompatDialogFragment() {
+) : AppCompatDialogFragment() {
 
     private val viewModel by lazy {
         AddLocationViewModel(onAddLocationResult)
@@ -22,7 +22,8 @@ class AddLocationDialog internal constructor(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val binding: AddLocationAlertBinding = DataBindingUtil.inflate(layoutInflater, R.layout.add_location_alert, null, false)
+        val binding: AddLocationAlertBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.add_location_alert, null, false)
         binding.lifecycleOwner = activity
         binding.vm = viewModel
         viewModel.dialog = this

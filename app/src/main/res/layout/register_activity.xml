@@ -7,7 +7,7 @@
 
         <variable
             name="registerViewModel"
-            type="com.github.margawron.epidemicalertapp.viewmodels.activity.RegisterViewModel" />
+            type="com.github.margawron.epidemicalertapp.databinds.viewmodels.activity.RegisterViewModel" />
     </data>
 
     <ScrollView

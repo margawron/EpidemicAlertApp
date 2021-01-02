@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.github.margawron.epidemicalertapp.viewmodels.activity.MarkPlaceViewModel" />
+            type="com.github.margawron.epidemicalertapp.databinds.viewmodels.activity.MarkPlaceViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

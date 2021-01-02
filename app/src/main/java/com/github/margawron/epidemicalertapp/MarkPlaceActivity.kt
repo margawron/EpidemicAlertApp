@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.github.margawron.epidemicalertapp.databinding.MarkPlaceActivityBinding
-import com.github.margawron.epidemicalertapp.viewmodels.activity.MarkPlaceViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.activity.MarkPlaceViewModel
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 

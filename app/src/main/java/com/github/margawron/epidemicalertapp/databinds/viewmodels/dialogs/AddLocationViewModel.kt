@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.viewmodels.dialogs
+package com.github.margawron.epidemicalertapp.databinds.viewmodels.dialogs
 
 import android.content.Context
 import android.widget.Toast

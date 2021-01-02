@@ -1,4 +1,4 @@
-package com.github.margawron.epidemicalertapp.viewmodels.activity
+package com.github.margawron.epidemicalertapp.databinds.viewmodels.activity
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -8,15 +8,14 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.margawron.epidemicalertapp.R
+import com.github.margawron.epidemicalertapp.api.auth.RegisterRequest
 import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
-import com.github.margawron.epidemicalertapp.api.auth.RegisterRequest
 import com.github.margawron.epidemicalertapp.databinding.RegisterActivityBinding
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.StringBuilder
 
 class RegisterViewModel @ViewModelInject internal constructor(
     private val authManager: AuthManager,
@@ -35,11 +34,14 @@ class RegisterViewModel @ViewModelInject internal constructor(
                     context.getString(R.string.too_short_login)
             }
             password.length <= 4 -> {
-                binding?.registerInputPassword?.error = context.getString(R.string.too_short_password)
+                binding?.registerInputPassword?.error =
+                    context.getString(R.string.too_short_password)
             }
             password != repeatPassword -> {
-                binding?.registerInputPassword?.error = context.getString(R.string.password_must_match)
-                binding?.registerInputRepeatPassword?.error = context.getString(R.string.password_must_match)
+                binding?.registerInputPassword?.error =
+                    context.getString(R.string.password_must_match)
+                binding?.registerInputRepeatPassword?.error =
+                    context.getString(R.string.password_must_match)
             }
             else -> {
                 viewModelScope.launch {
@@ -53,16 +55,20 @@ class RegisterViewModel @ViewModelInject internal constructor(
                             )
                         )
                     }
-                    when(apiResponse){
+                    when (apiResponse) {
                         is ApiResponse.Success -> {
-                            Toast.makeText(context, context.getString(R.string.registration_successful), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.registration_successful),
+                                Toast.LENGTH_SHORT
+                            ).show()
                             (context as Activity).finish()
                         }
                         is ApiResponse.Error -> {
                             val errorBuilder = ApiResponse.errorToMessage(apiResponse)
-                            with(AlertDialog.Builder(context)){
+                            with(AlertDialog.Builder(context)) {
                                 setMessage(errorBuilder)
-                                setNegativeButton(android.R.string.ok){ dialog, _ ->
+                                setNegativeButton(android.R.string.ok) { dialog, _ ->
                                     dialog.dismiss()
                                 }
                             }.create()

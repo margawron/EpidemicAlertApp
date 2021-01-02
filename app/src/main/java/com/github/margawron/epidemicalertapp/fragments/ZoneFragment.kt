@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.ZoneFragmentBinding
-import com.github.margawron.epidemicalertapp.viewmodels.fragment.ZoneFragmentViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment.ZoneFragmentViewModel
 import com.google.android.gms.maps.SupportMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
