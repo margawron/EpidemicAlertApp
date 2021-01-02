@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.databinding.ZoneFragmentBinding
 import com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment.ZoneFragmentViewModel
@@ -20,7 +20,7 @@ class ZoneFragment : Fragment() {
         fun newInstance() = ZoneFragment()
     }
 
-    private val viewModel by viewModels<ZoneFragmentViewModel>()
+    lateinit var viewModel: ZoneFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +28,7 @@ class ZoneFragment : Fragment() {
     ): View {
         val binding: ZoneFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.zone_fragment, container, false)
+        viewModel = ViewModelProvider(this).get(ZoneFragmentViewModel::class.java)
         binding.lifecycleOwner = this
         binding.vm = viewModel
         viewModel.activity = requireActivity()
