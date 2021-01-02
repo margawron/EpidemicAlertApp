@@ -41,7 +41,7 @@ class AuthManager(
             when(val apiResponse = userRepository.getSelfData()){
                 is ApiResponse.Success -> {
                     val userDto = apiResponse.body!!
-                    loggedInUser = userRepository.createOrUpdateUserFrom(userDto)
+                    loggedInUser = userRepository.updateFetchedUser(userDto)
                 }
                 is ApiResponse.Error -> {
                     return apiResponse

@@ -1,5 +1,6 @@
 package com.github.margawron.epidemicalertapp.data.users
 
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.api.users.UserDto
 import com.github.margawron.epidemicalertapp.api.users.UserService
 import javax.inject.Inject
@@ -12,7 +13,7 @@ class UserRepository @Inject constructor(
 ) {
     suspend fun getSelfData() = userService.getSelf()
 
-    fun createOrUpdateUserFrom(userDto: UserDto): User {
+    fun updateFetchedUser(userDto: UserDto): User {
         val existingUser = userDao.findById(userDto.id!!)
         if(existingUser == null){
             userDao.insert(User.fromUserDto(userDto))
@@ -21,4 +22,8 @@ class UserRepository @Inject constructor(
         }
         return userDao.findById(userDto.id!!)!!
     }
+
+    suspend fun findUserByName(username: String) = userService.getUserWithNameLike(username)
+
+    suspend fun changeUserRole(userId: Long, role: Role): ApiResponse<UserDto> = userService.changeUserRole(userId, role)
 }

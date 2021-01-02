@@ -3,9 +3,13 @@
     <string name="location_type_info">Info</string>
     <string name="location_type_quarantine">Kwarantanna</string>
 
-    <string name="emergency_level_green">Zielony</string>
-    <string name="emergency_level_yellow">Żółty</string>
-    <string name="emergency_level_red">Czerwony</string>
+    <string name="emergency_level_green">Zielona</string>
+    <string name="emergency_level_yellow">Żółta</string>
+    <string name="emergency_level_red">Czerwona</string>
+
+    <string name="role_user">Użytkownik</string>
+    <string name="role_mod">Moderator</string>
+    <string name="role_admin">Administrator</string>
 
     <string name="app_name">Ostrzeżenie Epidemiczne</string>
     <string name="app_error">Błąd</string>
@@ -45,4 +49,7 @@
     <string name="location_delete_success">Lokalizacja usunięta pomyślnie</string>
     <string name="selected_position">Wybrana pozycja</string>
     <string name="safety_zone">Strefa bezpieczeństwa:</string>
+    <string name="role">Rola:</string>
+    <string name="search">Wyszukaj:</string>
+    <string name="role_change">Zmień role</string>
 </resources>
