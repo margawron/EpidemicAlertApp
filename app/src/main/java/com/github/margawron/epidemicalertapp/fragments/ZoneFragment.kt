@@ -30,6 +30,7 @@ class ZoneFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.zone_fragment, container, false)
         binding.lifecycleOwner = this
         binding.vm = viewModel
+        viewModel.activity = requireActivity()
         viewModel.lifecycleOwner = this
 
         val fragment = childFragmentManager.findFragmentById(R.id.locationZoneMapFragment)

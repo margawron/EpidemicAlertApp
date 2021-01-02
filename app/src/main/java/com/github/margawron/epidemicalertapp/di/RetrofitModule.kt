@@ -8,6 +8,7 @@ import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapter
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.api.users.UserService
+import com.github.margawron.epidemicalertapp.api.zones.ZoneService
 import com.github.margawron.epidemicalertapp.data.locations.LocationRepository
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import dagger.Module
@@ -56,4 +57,9 @@ class RetrofitModule {
     @Provides
     fun provideLocationService(retrofit: Retrofit): LocationService =
         retrofit.create(LocationService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideZoneService(retrofit: Retrofit): ZoneService =
+        retrofit.create(ZoneService::class.java)
 }
