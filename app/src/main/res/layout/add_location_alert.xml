@@ -27,6 +27,15 @@
             android:hint="@string/description"
             android:autofillHints="yes"
             android:text="@={vm.description}"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expiry_date"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            />
 
         <DatePicker
             android:id="@+id/add_location_input_time"
