@@ -34,9 +34,10 @@
             android:id="@+id/role_recycler_users"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="1dp" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <TextView
             android:id="@+id/role_label_username"

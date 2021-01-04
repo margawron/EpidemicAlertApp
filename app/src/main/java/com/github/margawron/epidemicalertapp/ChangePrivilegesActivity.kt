@@ -25,7 +25,6 @@ class ChangePrivilegesActivity : AppCompatActivity() {
         viewModel.binding = binding
 
         binding.roleRecyclerUsers.also {
-            it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
             it.adapter = UserPrivilegesAdapter(listOf())
         }

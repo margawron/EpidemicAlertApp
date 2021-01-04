@@ -10,7 +10,7 @@ class UserPrivilegesAdapter(private val items: List<UserChangePrivilegesViewMode
     RecyclerView.Adapter<UserPrivilegesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = UserChangeRoleItemBinding.inflate(inflater)
+        val binding = UserChangeRoleItemBinding.inflate(inflater,parent, false)
         return ViewHolder(binding)
     }
 

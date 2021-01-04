@@ -46,6 +46,7 @@ class ZoneFragmentViewModel @ViewModelInject internal constructor(
 
     fun mapReadyCallback() = OnMapReadyCallback {
         googleMap = it
+        googleMap.uiSettings.isMapToolbarEnabled = false
         loadGeoJson()
         setupOnClickListener()
     }
