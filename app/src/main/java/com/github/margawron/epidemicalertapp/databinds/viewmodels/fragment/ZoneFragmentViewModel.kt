@@ -100,7 +100,7 @@ class ZoneFragmentViewModel @ViewModelInject internal constructor(
     private suspend fun initMapLayer() {
         if(jsonObject == null) {
             val geoJsonInputStream =
-                activity.resources.openRawResource(R.raw.powiaty_mid_res)
+                activity.resources.openRawResource(R.raw.powiaty_min)
             val byteArrayOutputStream = ByteArrayOutputStream()
             geoJsonInputStream.copyTo(byteArrayOutputStream)
             jsonObject = JSONObject(byteArrayOutputStream.toString())
