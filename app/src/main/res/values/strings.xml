@@ -52,4 +52,5 @@
     <string name="role">Rola:</string>
     <string name="search">Wyszukaj:</string>
     <string name="role_change">Zmień role</string>
+    <string name="suspect_mark_user">Oznacz użytkownika</string>
 </resources>

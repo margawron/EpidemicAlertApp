@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapter
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
+import com.github.margawron.epidemicalertapp.api.suspects.SuspectService
 import com.github.margawron.epidemicalertapp.api.users.UserService
 import com.github.margawron.epidemicalertapp.api.zones.ZoneService
 import com.github.margawron.epidemicalertapp.data.locations.LocationRepository
@@ -62,4 +63,9 @@ class RetrofitModule {
     @Provides
     fun provideZoneService(retrofit: Retrofit): ZoneService =
         retrofit.create(ZoneService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSuspectService(retrofit: Retrofit): SuspectService =
+        retrofit.create(SuspectService::class.java)
 }
