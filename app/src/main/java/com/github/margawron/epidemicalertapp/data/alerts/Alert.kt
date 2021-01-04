@@ -34,16 +34,16 @@ import com.github.margawron.epidemicalertapp.data.users.User
 class Alert(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = "user_id")
-    val userId: Int,
+    val userId: Long,
 
     @ColumnInfo(name = "suspect_id")
-    val suspectId: Int,
+    val suspectId: Long,
 
     @ColumnInfo(name = "pathogen_id")
-    val pathogenId: Int,
+    val pathogenId: Long,
 
     @ColumnInfo(name = "suspicion_level")
     val suspicionLevel: SuspicionLevel

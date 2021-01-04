@@ -28,7 +28,7 @@ class Measurement(
     val id: Long?,
 
     @ColumnInfo(name = "server_side_id")
-    val serverId: Int?,
+    val serverId: Long?,
 
     @ColumnInfo(name = "owner_id")
     val userId: Long,

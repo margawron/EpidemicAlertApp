@@ -26,7 +26,7 @@ class ProximityMeasurement(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = "is_victim")
     val isVictim: Boolean,
