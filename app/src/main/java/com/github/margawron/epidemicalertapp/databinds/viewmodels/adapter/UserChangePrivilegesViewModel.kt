@@ -1,9 +1,9 @@
-package com.github.margawron.epidemicalertapp.databinds.viewmodels.items
+package com.github.margawron.epidemicalertapp.databinds.viewmodels.adapter
 
 import androidx.lifecycle.ViewModel
 import com.github.margawron.epidemicalertapp.data.users.Role
 
-class UserItemViewModel(
+class UserChangePrivilegesViewModel(
     private val id: Long,
     private val username: String,
     private val mail: String,

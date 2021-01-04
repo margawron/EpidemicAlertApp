@@ -9,8 +9,8 @@ import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.data.users.Role
 import com.github.margawron.epidemicalertapp.data.users.UserRepository
 import com.github.margawron.epidemicalertapp.databinding.ChangePriviliagesActivityBinding
-import com.github.margawron.epidemicalertapp.databinds.adapters.UserAdapter
-import com.github.margawron.epidemicalertapp.databinds.viewmodels.items.UserItemViewModel
+import com.github.margawron.epidemicalertapp.databinds.adapters.UserPrivilegesAdapter
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.adapter.UserChangePrivilegesViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 
@@ -41,7 +41,7 @@ class ChangePrivilegesViewModel @ViewModelInject internal constructor(
             is ApiResponse.Success -> {
                 val users = response.body!!
                 val viewModels = users.map {
-                    UserItemViewModel(
+                    UserChangePrivilegesViewModel(
                         it.id!!,
                         it.username,
                         it.useremail,
@@ -50,7 +50,7 @@ class ChangePrivilegesViewModel @ViewModelInject internal constructor(
                         roles
                     )
                 }
-                binding.roleRecyclerUsers.adapter = UserAdapter(viewModels)
+                binding.roleRecyclerUsers.adapter = UserPrivilegesAdapter(viewModels)
             }
             is ApiResponse.Error -> {
                 val errors = ApiResponse.errorToMessage(response)
@@ -59,7 +59,7 @@ class ChangePrivilegesViewModel @ViewModelInject internal constructor(
         }
     }
 
-    private fun onSetRoleCallback() = UserItemViewModel.OnSetRoleClickCallback { id: Long, role: Role ->
+    private fun onSetRoleCallback() = UserChangePrivilegesViewModel.OnSetRoleClickCallback { id: Long, role: Role ->
         viewModelScope.launch{
             when(val response = userRepository.changeUserRole(id, role)){
                 is ApiResponse.Success -> {

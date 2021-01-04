@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.margawron.epidemicalertapp.databinding.UserChangeRoleItemBinding
-import com.github.margawron.epidemicalertapp.databinds.viewmodels.items.UserItemViewModel
+import com.github.margawron.epidemicalertapp.databinds.viewmodels.adapter.UserChangePrivilegesViewModel
 
-class UserAdapter(private val items: List<UserItemViewModel>) :
-    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserPrivilegesAdapter(private val items: List<UserChangePrivilegesViewModel>) :
+    RecyclerView.Adapter<UserPrivilegesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = UserChangeRoleItemBinding.inflate(inflater)
@@ -19,7 +19,7 @@ class UserAdapter(private val items: List<UserItemViewModel>) :
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(val binding: UserChangeRoleItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: UserItemViewModel) {
+        fun bind(item: UserChangePrivilegesViewModel) {
             binding.vm = item
             binding.executePendingBindings()
         }

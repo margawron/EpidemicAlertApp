@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.margawron.epidemicalertapp.databinding.ChangePriviliagesActivityBinding
-import com.github.margawron.epidemicalertapp.databinds.adapters.UserAdapter
+import com.github.margawron.epidemicalertapp.databinds.adapters.UserPrivilegesAdapter
 import com.github.margawron.epidemicalertapp.databinds.viewmodels.activity.ChangePrivilegesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +27,7 @@ class ChangePrivilegesActivity : AppCompatActivity() {
         binding.roleRecyclerUsers.also {
             it.layoutManager = LinearLayoutManager(this)
             it.setHasFixedSize(true)
-            it.adapter = UserAdapter(listOf())
+            it.adapter = UserPrivilegesAdapter(listOf())
         }
     }
 }
