@@ -62,6 +62,7 @@
     <string name="select_date_of_infection">Wybierz datę zachorowania</string>
     <string name="select_pathogen">Wybierz patogen:</string>
     <string name="mark_user">Oznacz użytkownika</string>
+    <string name="mark_user_success">Poprawnie oznaczono użytkownika:</string>
     <string name="mark_suspect_are_you_sure">Czy jesteś pewien że chcesz oznaczyć użytkownika:</string>
     <string name="mark_suspect_as_carrier">jako nosiciela:</string>
     <string name="mark_suspect_from_date">od daty:</string>

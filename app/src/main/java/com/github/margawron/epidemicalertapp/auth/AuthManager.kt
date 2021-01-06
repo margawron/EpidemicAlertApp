@@ -15,8 +15,8 @@ import java.time.Instant
 
 class AuthManager(
     private val userRepository: UserRepository,
-    private val authService: AuthService
-    ) {
+    private val authService: AuthService,
+) {
 
     private var token: String? = null
     private var loggedInUser: User? = null
@@ -24,6 +24,8 @@ class AuthManager(
     private var tokenExpiryInstant: Instant? = null
 
     private var loginRequest: LoginRequest? = null
+    private var loginResponse: LoginResponse? = null
+    fun getDeviceId() = loginResponse?.deviceId
 
     suspend fun registerUser(registerRequest: RegisterRequest): ApiResponse<RegisterResponse> {
         return withContext(Dispatchers.IO) {
@@ -34,7 +36,8 @@ class AuthManager(
     suspend fun loginUser(loginRequest: LoginRequest): ApiResponse<LoginResponse> {
         val tokenResponse = authService.getBearerToken(loginRequest)
         if (tokenResponse is ApiResponse.Success) {
-            val (accessToken, expirationDate) = tokenResponse.body!!
+            loginResponse = tokenResponse.body!!
+            val (accessToken, expirationDate) = tokenResponse.body
             token = accessToken
             tokenExpiryInstant = expirationDate
             this.loginRequest = loginRequest
