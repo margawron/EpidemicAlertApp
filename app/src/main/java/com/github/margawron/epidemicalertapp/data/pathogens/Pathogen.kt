@@ -17,11 +17,11 @@ class Pathogen(
     val id: Long,
 
     @ColumnInfo(name = "pathogen_name")
-    val pathogenName: String,
+    val name: String,
 
     @ColumnInfo(name = "contagious_period")
     val contagiousPeriod: Int,
 
     @ColumnInfo(name = "period_resolution")
-    val periodResolution: PeriodResolution
+    val contagiousPeriodResolution: PeriodResolution
 )

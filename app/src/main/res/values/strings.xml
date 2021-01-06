@@ -11,6 +11,10 @@
     <string name="role_mod">Moderator</string>
     <string name="role_admin">Administrator</string>
 
+    <string name="suspicion_level_sick">Definitywnie chory</string>
+    <string name="suspicion_level_probable">Prawdopodobnie chory</string>
+    <string name="suspicion_level_dismissed">Zła diagnoza</string>
+
     <string name="app_name">Ostrzeżenie Epidemiczne</string>
     <string name="app_error">Błąd</string>
     <string name="register">Zarejestruj</string>
@@ -53,4 +57,13 @@
     <string name="search">Wyszukaj:</string>
     <string name="role_change">Zmień role</string>
     <string name="suspect_mark_user">Oznacz użytkownika</string>
+    <string name="suspicion_level">Poziom podejżliwości</string>
+    <string name="set_date_of_infection">Ustawiona data zachorowania:</string>
+    <string name="select_date_of_infection">Wybierz datę zachorowania</string>
+    <string name="select_pathogen">Wybierz patogen:</string>
+    <string name="mark_user">Oznacz użytkownika</string>
+    <string name="mark_suspect_are_you_sure">Czy jesteś pewien że chcesz oznaczyć użytkownika:</string>
+    <string name="mark_suspect_as_carrier">jako nosiciela:</string>
+    <string name="mark_suspect_from_date">od daty:</string>
+    <string name="mark_suspect_with_certainty">z pewnością:</string>
 </resources>

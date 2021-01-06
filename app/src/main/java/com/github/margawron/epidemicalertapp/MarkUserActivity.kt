@@ -22,6 +22,7 @@ class MarkUserActivity: AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.vm = viewModel
         viewModel.binding = binding
+        viewModel.activity = this
 
         binding.markUserRecycler.also {
             it.setHasFixedSize(true)
