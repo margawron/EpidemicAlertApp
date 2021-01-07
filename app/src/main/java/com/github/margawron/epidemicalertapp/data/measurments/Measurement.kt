@@ -28,7 +28,7 @@ class Measurement(
     val id: Long?,
 
     @ColumnInfo(name = "server_side_id")
-    val serverId: Long?,
+    var serverId: Long?,
 
     @ColumnInfo(name = "owner_id")
     val userId: Long,
@@ -52,7 +52,7 @@ class Measurement(
     val bearingAccuracy: Float,
 
     @ColumnInfo(name = "sent_to_server")
-    val wasSentToServer: Boolean = false
+    var wasSentToServer: Boolean = false
 ){
     companion object{
     }

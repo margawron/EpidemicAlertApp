@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapter
+import com.github.margawron.epidemicalertapp.api.devices.DeviceService
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.api.pathogens.PathogenService
@@ -74,4 +75,9 @@ class RetrofitModule {
     @Provides
     fun providePathogenService(retrofit: Retrofit): PathogenService =
         retrofit.create(PathogenService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDeviceService(retrofit: Retrofit): DeviceService =
+        retrofit.create(DeviceService::class.java)
 }

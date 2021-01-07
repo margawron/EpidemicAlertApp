@@ -2,9 +2,13 @@ package com.github.margawron.epidemicalertapp.data.measurments
 
 import android.location.Location
 import androidx.lifecycle.LiveData
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
+import com.github.margawron.epidemicalertapp.api.measurements.MeasurementDto
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.users.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -18,7 +22,7 @@ class MeasurementRepository @Inject constructor(
     private val measurementService: MeasurementService,
     private val authManager: AuthManager
 ) {
-    private var sentCounter = 0
+    private var savedCounter = 0
 
     private var cachedLastLocation: Location? = null
 
@@ -41,7 +45,24 @@ class MeasurementRepository @Inject constructor(
                 false
             )
         )
-        sentCounter++
+        savedCounter++
+        if(savedCounter > 15){
+            withContext(Dispatchers.IO){
+                val measurements = measurementDao.getUnsentMeasurementsForUser(user.id)
+                val dtos = measurements.map { MeasurementDto.fromEntity(it) }
+                val response = measurementService.insertMeasurements(authManager.getDeviceId()!!, dtos)
+                if(response is ApiResponse.Success){
+                    val idMappings = response.body!!
+                    for (measurement in measurements){
+                        val measurementId = idMappings.find { it.incomingId == measurement.id }!!
+                        measurement.serverId = measurementId.outgoingId
+                        measurement.wasSentToServer = true
+                    }
+                    measurementDao.updateMeasurements(measurements)
+                    savedCounter = 0
+                }
+            }
+        }
     }
 
     fun getLocationsForDay(user: User, date: LocalDate): LiveData<List<Measurement>>{
