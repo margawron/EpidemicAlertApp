@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
 import com.github.margawron.epidemicalertapp.api.alerts.AlertService
-import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapter
+import com.github.margawron.epidemicalertapp.api.common.ApiResponseCallAdapterFactory
 import com.github.margawron.epidemicalertapp.api.devices.DeviceService
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
@@ -13,8 +13,6 @@ import com.github.margawron.epidemicalertapp.api.pathogens.PathogenService
 import com.github.margawron.epidemicalertapp.api.suspects.SuspectService
 import com.github.margawron.epidemicalertapp.api.users.UserService
 import com.github.margawron.epidemicalertapp.api.zones.ZoneService
-import com.github.margawron.epidemicalertapp.data.locations.LocationRepository
-import com.github.margawron.epidemicalertapp.data.measurments.MeasurementRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,7 +40,7 @@ class RetrofitModule {
     fun provideRetrofit(objectMapper: ObjectMapper, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl("https://ostrzezenieepidemiologiczne.tk/api/")
-            .addCallAdapterFactory(ApiResponseCallAdapter())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory())
             .addConverterFactory(JacksonConverterFactory.create(objectMapper))
             .client(okHttpClient)
             .build()
