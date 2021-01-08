@@ -53,7 +53,9 @@ class MarkSuspectViewModel internal constructor(
             val error = pathogenRepository.refreshPathogenDb()
             if (error != null) {
                 val errorString = ApiResponse.errorToMessage(error)
-                Toast.makeText(context, errorString, Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context, errorString, Toast.LENGTH_SHORT).show()
+                }
             }
         }
         val pathogenObserver = Observer<List<Pathogen>> { pathogens ->
