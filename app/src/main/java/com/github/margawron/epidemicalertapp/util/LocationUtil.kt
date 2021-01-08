@@ -37,8 +37,8 @@ object LocationUtil {
         locations.forEach{ location ->
             val latLng = LatLng(location.latitude, location.longitude)
             val markerOptions = MarkerOptions()
-                .title(getFormattedLatLng(latLng))
-                .snippet(location.description)
+                .title(location.description)
+                .snippet(getFormattedLatLng(latLng))
                 .position(latLng)
             when(location.locationType){
                 LocationType.INFO -> {
