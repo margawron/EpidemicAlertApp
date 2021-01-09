@@ -55,16 +55,19 @@ class AuthManager(
         return tokenResponse
     }
 
-    suspend fun withValidToken(callback: () -> Any) {
+    suspend fun refreshToken() {
         val expiryInstant = tokenExpiryInstant
-            ?: throw IllegalStateException("Auth manager was not correctly initialized")
-        if (expiryInstant.isAfter(Instant.now().minusSeconds(60))) {
+        if (expiryInstant != null && expiryInstant.isAfter(Instant.now().minusSeconds(60))) {
             val capturedRequest = loginRequest
             if (capturedRequest != null) {
                 loginUser(capturedRequest)
             }
         }
-        callback()
+    }
+
+    fun isTokenValid(): Boolean {
+        val expiryInstant = tokenExpiryInstant
+        return expiryInstant != null && expiryInstant.isAfter(Instant.now().minusSeconds(60))
     }
 
     fun getToken(): String? = token
