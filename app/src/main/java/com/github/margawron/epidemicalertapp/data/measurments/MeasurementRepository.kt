@@ -45,28 +45,34 @@ class MeasurementRepository @Inject constructor(
                 false
             )
         )
+        val amountOfUnsentMeasurements = measurementDao.getUnsentForUser(user.id)
         savedCounter++
-        if(savedCounter > 15){
-            withContext(Dispatchers.IO){
-                val measurements = measurementDao.getUnsentMeasurementsForUser(user.id)
-                val dtos = measurements.map { MeasurementDto.fromEntity(it) }
-                val response = measurementService.insertMeasurements(authManager.getDeviceId()!!, dtos)
-                if(response is ApiResponse.Success){
-                    val idMappings = response.body!!
-                    for (measurement in measurements){
-                        val measurementId = idMappings.find { it.incomingId == measurement.id }!!
-                        measurement.serverId = measurementId.outgoingId
-                        measurement.wasSentToServer = true
-                    }
-                    measurementDao.updateMeasurements(measurements)
-                    savedCounter = 0
+        if(savedCounter > 15 || savedCounter != amountOfUnsentMeasurements){
+            sendMeasurementsOfUser(user)
+        }
+    }
+
+    private suspend fun sendMeasurementsOfUser(user: User) {
+        withContext(Dispatchers.IO) {
+            val measurements = measurementDao.getUnsentMeasurementsForUser(user.id)
+            if (measurements.isEmpty()) return@withContext
+            val dtos = measurements.map { MeasurementDto.fromEntity(it) }
+            val response = measurementService.insertMeasurements(authManager.getDeviceId()!!, dtos)
+            if (response is ApiResponse.Success) {
+                val idMappings = response.body!!
+                for (measurement in measurements) {
+                    val measurementId = idMappings.find { it.incomingId == measurement.id }!!
+                    measurement.serverId = measurementId.outgoingId
+                    measurement.wasSentToServer = true
                 }
+                measurementDao.updateMeasurements(measurements)
+                savedCounter = 0
             }
         }
     }
 
     fun getLocationsForDay(user: User, date: LocalDate): LiveData<List<Measurement>>{
-        val startOfDay = date.atStartOfDay(ZoneId.systemDefault());
+        val startOfDay = date.atStartOfDay(ZoneId.systemDefault())
         val endOfDay = startOfDay.plus(1, ChronoUnit.DAYS)
         return measurementDao.getMeasurementsFromDate(user.id, startOfDay.toInstant(), endOfDay.toInstant())
     }

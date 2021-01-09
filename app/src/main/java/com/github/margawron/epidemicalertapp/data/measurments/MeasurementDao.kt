@@ -23,4 +23,7 @@ interface MeasurementDao {
 
     @Query("SELECT * FROM Measurement WHERE owner_id = :user_id and sent_to_server = 0")
     fun getUnsentMeasurementsForUser(user_id: Long): List<Measurement>
+
+    @Query("SELECT COUNT(*) FROM Measurement WHERE owner_id = :user_id")
+    fun getUnsentForUser(user_id: Long): Int
 }
