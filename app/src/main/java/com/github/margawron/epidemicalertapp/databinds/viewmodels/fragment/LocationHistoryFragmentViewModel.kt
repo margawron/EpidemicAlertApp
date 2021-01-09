@@ -21,6 +21,8 @@ import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.qualifiers.ActivityContext
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
     private val authManager: AuthManager,
@@ -102,7 +104,7 @@ class LocationHistoryFragmentViewModel @ViewModelInject internal constructor(
                 val markerOptions = MarkerOptions()
                 markerOptions.position(latLng)
                 markerOptions.title(
-                    it.measurementTime.atZone(ZoneId.systemDefault()).toString()
+                    it.measurementTime.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                 )
 
                 googleMap.addMarker(markerOptions)

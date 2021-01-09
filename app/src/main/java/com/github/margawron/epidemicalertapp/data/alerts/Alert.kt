@@ -52,5 +52,5 @@ class Alert(
     var suspicionLevel: SuspicionLevel,
 
     @ColumnInfo(name = "suspect_start_time")
-    var suspectStartTime: Instant
+    var alertCreationDate: Instant
 )

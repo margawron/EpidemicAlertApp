@@ -26,6 +26,7 @@ class PoiLocationFragmentViewModel @ViewModelInject internal constructor(
 
     fun mapReadyCallback() = OnMapReadyCallback {
         googleMap = it
+        it.uiSettings.isMapToolbarEnabled = false
         zoomOnCurrentLocation()
         setupPoiLocation()
         viewModelScope.launch {
