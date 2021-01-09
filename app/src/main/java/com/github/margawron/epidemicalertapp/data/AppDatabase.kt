@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.github.margawron.epidemicalertapp.data.alerts.Alert
 import com.github.margawron.epidemicalertapp.data.alerts.AlertDao
 import com.github.margawron.epidemicalertapp.data.measurments.Measurement
@@ -41,11 +43,10 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        private fun buildDatabase(context: Context): AppDatabase = Room
-            .databaseBuilder(context, AppDatabase::class.java, "epidemic-alert-db")
-            .build()
+        private fun buildDatabase(context: Context): AppDatabase {
+            return Room
+                .databaseBuilder(context, AppDatabase::class.java, "epidemic-alert-db")
+                .build()
+        }
     }
-
-
-
 }

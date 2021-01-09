@@ -1,8 +1,10 @@
 package com.github.margawron.epidemicalertapp.data.alerts
 
 import androidx.room.*
+import com.github.margawron.epidemicalertapp.data.measurments.InstantConverter
 import com.github.margawron.epidemicalertapp.data.pathogens.Pathogen
 import com.github.margawron.epidemicalertapp.data.users.User
+import java.time.Instant
 
 @Entity(
     foreignKeys = [
@@ -29,7 +31,8 @@ import com.github.margawron.epidemicalertapp.data.users.User
     ]
 )
 @TypeConverters(value = [
-    SuspicionLevelConverter::class
+    SuspicionLevelConverter::class,
+    InstantConverter::class,
 ])
 class Alert(
     @PrimaryKey
@@ -37,14 +40,17 @@ class Alert(
     val id: Long,
 
     @ColumnInfo(name = "user_id")
-    val userId: Long,
+    var victimId: Long,
 
     @ColumnInfo(name = "suspect_id")
-    val suspectId: Long,
+    var suspectId: Long,
 
     @ColumnInfo(name = "pathogen_id")
-    val pathogenId: Long,
+    var pathogenId: Long,
 
     @ColumnInfo(name = "suspicion_level")
-    val suspicionLevel: SuspicionLevel
+    var suspicionLevel: SuspicionLevel,
+
+    @ColumnInfo(name = "suspect_start_time")
+    var suspectStartTime: Instant
 )
