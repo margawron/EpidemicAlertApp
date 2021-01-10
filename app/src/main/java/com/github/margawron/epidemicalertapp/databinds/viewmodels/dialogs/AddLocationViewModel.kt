@@ -28,8 +28,10 @@ class AddLocationViewModel(
     var year: Int? = null
     var locationTypeOrdinal: Int = 0
 
+    var shouldExpire = false
+
     fun onAccept() {
-        if (day == null || month == null || year == null) {
+        if (shouldExpire && (day == null || month == null || year == null)) {
             Toast.makeText(
                 context,
                 context.getString(R.string.expiry_date_not_selected),
@@ -42,13 +44,14 @@ class AddLocationViewModel(
                 Toast.LENGTH_SHORT
             ).show()
         } else {
+            val expiryDate =
+                if (shouldExpire) LocalDate.of(year!!, month!! + 1, day!!)
+                    .atStartOfDay()
+                    .toInstant(ZoneOffset.UTC)
+                else null
             onAddLocationResult.onAccept(
                 description,
-                LocalDate.of(year!!, month!! + 1, day!!)
-                    .atStartOfDay()
-                    .toInstant(
-                        ZoneOffset.UTC
-                    ),
+                expiryDate,
                 LocationType.values()[locationTypeOrdinal]
             )
             dialog.dismiss()
@@ -60,6 +63,6 @@ class AddLocationViewModel(
     }
 
     fun interface OnAddLocationResult {
-        fun onAccept(description: String, time: Instant, locationType: LocationType)
+        fun onAccept(description: String, time: Instant?, locationType: LocationType)
     }
 }

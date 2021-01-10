@@ -92,7 +92,7 @@ class LocationRepository @Inject constructor(
     suspend fun createLocation(
         latLng: LatLng,
         description: String,
-        expiryTime: Instant,
+        expiryTime: Instant?,
         locationType: LocationType
     ): ApiResponse<LocationDto> {
         val locationDto = LocationDto(
