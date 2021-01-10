@@ -67,4 +67,10 @@
     <string name="mark_suspect_as_carrier">jako nosiciela:</string>
     <string name="mark_suspect_from_date">od daty:</string>
     <string name="mark_suspect_with_certainty">z pewnością:</string>
+
+    <string name="notifications">Powiadomienia</string>
+    <string name="statistics">Statystyki</string>
+    <string name="zones">Strefy bezpieczeństwa</string>
+    <string name="location_history">Historia lokalizacji</string>
+    <string name="points_of_interest">Punkty zainteresowania</string>
 </resources>

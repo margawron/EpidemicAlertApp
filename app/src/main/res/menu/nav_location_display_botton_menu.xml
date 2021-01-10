@@ -3,21 +3,21 @@
 
     <item android:id="@+id/ic_poi"
         android:icon="@drawable/ic_poi"
-        android:title="Punkty zainteresowania"/>
+        android:title="@string/points_of_interest"/>
 
     <item android:id="@+id/ic_location_history"
         android:icon="@drawable/ic_location_history"
-        android:title="Historia lokalizacji"/>
+        android:title="@string/location_history"/>
 
     <item android:id="@+id/ic_zones"
         android:icon="@drawable/ic_zones"
-        android:title="Strefy bezpieczeństwa"/>
+        android:title="@string/zones"/>
 
     <item android:id="@+id/ic_alerts"
         android:icon="@drawable/ic_alerts"
-        android:title="Powiadomienia"/>
+        android:title="@string/notifications"/>
 
     <item android:id="@+id/ic_statistics"
         android:icon="@drawable/ic_statistics"
-        android:title="Statystyki"/>
+        android:title="@string/statistics"/>
 </menu>

@@ -1,86 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="vm"
             type="com.github.margawron.epidemicalertapp.databinds.viewmodels.dialogs.AddLocationViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/add_location_input_description"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:hint="@string/description"
-            android:autofillHints="yes"
-            android:text="@={vm.description}"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/expiry_date"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <DatePicker
-            android:id="@+id/add_location_input_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:hint="@string/expiry_date"
-            android:datePickerMode="calendar"
-            android:day="@={vm.day}"
-            android:month="@={vm.month}"
-            android:year="@={vm.year}"
-            android:spinnersShown="true"/>
+            <EditText
+                android:id="@+id/add_location_input_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="yes"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/description"
+                android:inputType="textMultiLine"
+                android:text="@={vm.description}" />
 
-        <Spinner
-            android:id="@+id/add_location_spinner_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@{vm.items}"
-            android:selectedItemPosition="@={vm.locationTypeOrdinal}"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"/>
+            <TextView
+                android:id="@+id/add_location_expiry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_location_input_description"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:ems="10"
+                android:text="@string/expiry_date" />
 
-        <Button
-            android:id="@+id/add_location_button_accept"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/submit"
-            android:onClick="@{() -> vm.onAccept()}" />
+            <DatePicker
+                android:id="@+id/add_location_input_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_location_expiry_date"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:datePickerMode="calendar"
+                android:day="@={vm.day}"
+                android:hint="@string/expiry_date"
+                android:month="@={vm.month}"
+                android:spinnersShown="true"
+                android:year="@={vm.year}" />
 
-        <Button
-            android:id="@+id/add_location_button_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="20dp"
-            android:onClick="@{() -> vm.onCancel()}"
-            android:text="@string/cancel" />
+            <Spinner
+                android:id="@+id/add_location_spinner_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_location_input_time"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:entries="@{vm.items}"
+                android:selectedItemPosition="@={vm.locationTypeOrdinal}" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/add_location_button_accept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_location_spinner_type"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:onClick="@{() -> vm.onAccept()}"
+                android:text="@string/submit" />
+
+            <Button
+                android:id="@+id/add_location_button_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_location_button_accept"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="@{() -> vm.onCancel()}"
+                android:text="@string/cancel" />
+
+        </RelativeLayout>
+    </ScrollView>
+
 </layout>
