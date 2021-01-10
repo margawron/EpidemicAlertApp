@@ -55,7 +55,7 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            AddLocationDialog() { description: String, expiryTime: Instant, locationType: LocationType ->
+            AddLocationDialog() { description: String, expiryTime: Instant?, locationType: LocationType ->
                 val latLng = marker!!.position
                 viewModelScope.launch {
                     when (val response = locationRepository.createLocation(
@@ -89,11 +89,13 @@ class MarkPlaceViewModel @ViewModelInject internal constructor(
                 withContext(Dispatchers.IO) {
                     when (val response = locationRepository.removeLocationById(locationId)) {
                         is ApiResponse.Success -> {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.location_delete_success),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.location_delete_success),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                         is ApiResponse.Error -> {
                             val error = ApiResponse.errorToMessage(response)
