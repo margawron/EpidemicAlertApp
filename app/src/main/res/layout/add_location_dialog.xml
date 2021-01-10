@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <EditText
@@ -31,17 +31,27 @@
                 android:inputType="textMultiLine"
                 android:text="@={vm.description}" />
 
-            <TextView
-                android:id="@+id/add_location_expiry_date"
-                android:layout_width="wrap_content"
+            <CheckBox
+                android:id="@+id/add_location_should_expire"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/add_location_input_description"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 android:ems="10"
-                android:text="@string/expiry_date" />
-
+                android:checked="@={vm.shouldExpire}"
+                android:text="@string/should_expire" />
+            <TextView
+                android:id="@+id/add_location_expiry_date"
+                android:layout_below="@id/add_location_should_expire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/expiry_date">
+            </TextView>
             <DatePicker
                 android:id="@+id/add_location_input_time"
                 android:layout_width="match_parent"
@@ -52,7 +62,7 @@
                 android:layout_marginEnd="20dp"
                 android:datePickerMode="calendar"
                 android:day="@={vm.day}"
-                android:hint="@string/expiry_date"
+                android:hint="@string/should_expire"
                 android:month="@={vm.month}"
                 android:spinnersShown="true"
                 android:year="@={vm.year}" />
