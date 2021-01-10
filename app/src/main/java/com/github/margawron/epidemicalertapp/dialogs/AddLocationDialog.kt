@@ -26,6 +26,7 @@ class AddLocationDialog internal constructor(
             DataBindingUtil.inflate(layoutInflater, R.layout.add_location_dialog, null, false)
         binding.lifecycleOwner = activity
         binding.vm = viewModel
+        binding.addLocationInputTime.minDate = System.currentTimeMillis() - 1000
         viewModel.dialog = this
         viewModel.context = requireContext()
 
