@@ -2,10 +2,12 @@ package com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment
 
 import android.content.Context
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.alerts.Alert
 import com.github.margawron.epidemicalertapp.data.alerts.AlertRepository
@@ -13,6 +15,7 @@ import com.github.margawron.epidemicalertapp.data.pathogens.PathogenRepository
 import com.github.margawron.epidemicalertapp.databinding.AlertFragmentBinding
 import com.github.margawron.epidemicalertapp.databinds.adapters.AlertItemAdapter
 import com.github.margawron.epidemicalertapp.databinds.viewmodels.adapter.AlertViewModel
+import com.github.margawron.epidemicalertapp.dialogs.AlertDetailsDialog
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +30,7 @@ class AlertFragmentViewModel @ViewModelInject internal constructor(
 ): ViewModel() {
 
     lateinit var binding: AlertFragmentBinding
+    lateinit var fragment: Fragment
 
     fun onInit() {
         viewModelScope.launch {
@@ -63,7 +67,27 @@ class AlertFragmentViewModel @ViewModelInject internal constructor(
         }
     }
 
-    private fun onAlertClick() = AlertViewModel.AlertClickListener {
-        Toast.makeText(context, "pressed alert with id: $it", Toast.LENGTH_SHORT).show()
+    private fun onAlertClick() = AlertViewModel.AlertClickListener { alertId ->
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                showDetailsOfAlert(alertId)
+            }
+        }
+    }
+
+    private suspend fun showDetailsOfAlert(alertId: Long) {
+        val response = alertRepository.getAlertData(alertId)
+        withContext(Dispatchers.Main){
+            when(response){
+                is ApiResponse.Success -> {
+                    AlertDetailsDialog(response.body!!)
+                        .show(fragment.parentFragmentManager, "show alert details")
+                }
+                is ApiResponse.Error -> {
+                    val errors = ApiResponse.errorToMessage(response)
+                    Toast.makeText(context, errors, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

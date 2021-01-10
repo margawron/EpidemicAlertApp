@@ -32,6 +32,7 @@ class AlertFragment : Fragment() {
         binding.vm = viewModel
         viewModel.binding = binding
         viewModel.onInit()
+        viewModel.fragment = this
 
         binding.alertRecycler.also {
             it.setHasFixedSize(false)
