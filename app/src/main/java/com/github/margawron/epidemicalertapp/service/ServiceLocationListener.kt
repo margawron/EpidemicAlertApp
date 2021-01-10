@@ -11,6 +11,8 @@ import com.github.margawron.epidemicalertapp.util.LocationUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneId
 
 class ServiceLocationListener constructor(
     private val measurementRepository: MeasurementRepository,
@@ -32,7 +34,11 @@ class ServiceLocationListener constructor(
             val highestAccuracyLocation = lastLocationMeasurements.minByOrNull { location -> location.accuracy }!!
             val lastLocation = measurementRepository.getCurrentLocation()
             if (lastLocation != null){
-                if(lastLocation.distanceTo(highestAccuracyLocation) > lastLocation.accuracy + highestAccuracyLocation.accuracy){
+                val dateOfLastUpdate = Instant.ofEpochMilli(lastLocation.time).atZone(ZoneId.systemDefault()).toLocalDate()
+                val todayDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
+                val lastUpdateIsOld = todayDate.isAfter(dateOfLastUpdate.plusDays(1))
+                val hasUserMovedSufficiently = lastLocation.distanceTo(highestAccuracyLocation) > lastLocation.accuracy + highestAccuracyLocation.accuracy
+                if(hasUserMovedSufficiently || lastUpdateIsOld ){
                     onLocationApproved(highestAccuracyLocation)
                 }
                 lastLocationMeasurements.clear()
