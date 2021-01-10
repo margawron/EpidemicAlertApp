@@ -12,5 +12,5 @@ data class AlertDto(
     var victimMeasurements: List<ProximityMeasurementDto>,
     var suspectId: Long,
     var suspectMeasurements: List<ProximityMeasurementDto>,
-    var suspectStartInstant: Instant,
+    var alertCreationInstant: Instant,
 )

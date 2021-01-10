@@ -12,6 +12,23 @@ class PathogenRepository @Inject constructor(
     private val pathogenService: PathogenService,
 ) {
 
+    suspend fun fetchPathogenById(pathogenId: Long): Pathogen? {
+        val pathogen = pathogenDao.findById(pathogenId)
+        if(pathogen == null){
+            when(val response = pathogenService.getPathogenById(pathogenId)){
+                is ApiResponse.Success -> {
+                    val serverPathogen = response.body!!
+                    createOrUpdatePathogens(listOf(serverPathogen))
+                }
+            }
+        }
+        return pathogenDao.findById(pathogenId)
+    }
+
+    suspend fun updatePathogen(pathogen: Pathogen) {
+        pathogenDao.update(pathogen)
+    }
+
     fun getPathogensLiveData(): LiveData<List<Pathogen>> {
         return pathogenDao.getAllPathogens()
     }

@@ -44,7 +44,7 @@
     <string name="description">Opis</string>
     <string name="submit">Zatwierdź</string>
     <string name="cancel">Anuluj</string>
-    <string name="expiry_date">Czas wygaśnięcia</string>
+    <string name="should_expire">Wygasająca lokalizacja</string>
     <string name="expiry_date_not_selected">Data wygaśnięcia nie została wybrana</string>
     <string name="description_not_set">Opis nie został ustawiony</string>
     <string name="location_not_selected">Nie wybrano lokalizacji</string>
@@ -73,4 +73,10 @@
     <string name="zones">Strefy bezpieczeństwa</string>
     <string name="location_history">Historia lokalizacji</string>
     <string name="points_of_interest">Punkty zainteresowania</string>
+    <string name="expiry_date">Czas wygaśnięcia</string>
+    <string name="display_suspicion_level">Poziom podejrzliwości nosiciela:</string>
+    <string name="display_pathogen_name">Nazwa patogenu:</string>
+    <string name="display_alert_creation_date">Data utworzenia:</string>
+    <string name="display_suspect_id">Nr podejrzanego:</string>
+    <string name="display_alert_id">Nr powiadomienia:</string>
 </resources>
