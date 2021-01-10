@@ -23,6 +23,21 @@ class UserRepository @Inject constructor(
         return userDao.findById(userDto.id!!)!!
     }
 
+    fun getUserById(userId: Long): User? {
+        return userDao.findById(userId)
+    }
+
+    fun createAnonymousUserForId(userId: Long): User {
+        val anonymousUser = User(
+            userId,
+            "Anonymous",
+            Role.USER,
+            AccountState.NORMAL
+        )
+        userDao.insert(anonymousUser)
+        return userDao.findById(userId)!!
+    }
+
     suspend fun findUserByName(username: String) = userService.getUserWithNameLike(username)
 
     suspend fun changeUserRole(userId: Long, role: Role): ApiResponse<UserDto> = userService.changeUserRole(userId, role)
