@@ -105,6 +105,7 @@ class StatisticsFragment : Fragment() {
             position = XAxis.XAxisPosition.BOTTOM
             labelRotationAngle = 90.0f
         }
+
         barChart.data = barData
         barChart.groupBars(0.0f, groupSpace, barSpace)
         barChart.description.isEnabled = false
@@ -121,6 +122,7 @@ class StatisticsFragment : Fragment() {
         barChart.setVisibleXRange(5.0f,7.0f)
         barChart.centerViewTo(statistics.size - 2.0f, 100000.0f, YAxis.AxisDependency.RIGHT)
         barChart.setScaleEnabled(false)
+        barChart.isHighlightPerTapEnabled = false
 
         barChart.invalidate()
     }
