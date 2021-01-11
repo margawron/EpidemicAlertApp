@@ -34,7 +34,7 @@ class AlertDetailsViewModel constructor(
         CoroutineScope(Dispatchers.IO).launch {
             delay(500)
             withContext(Dispatchers.Main){
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 15))
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 50))
             }
 
         }
