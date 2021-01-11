@@ -81,7 +81,7 @@ class AlertFragmentViewModel @ViewModelInject internal constructor(
             when(response){
                 is ApiResponse.Success -> {
                     AlertDetailsDialog(response.body!!)
-                        .show(fragment.parentFragmentManager, "show alert details")
+                        .show(fragment.parentFragmentManager, AlertDetailsDialog.DIALOG_TAG)
                 }
                 is ApiResponse.Error -> {
                     val errors = ApiResponse.errorToMessage(response)

@@ -84,4 +84,7 @@
     <string name="display_alert_creation_date">Data utworzenia:</string>
     <string name="display_suspect_id">Nr podejrzanego:</string>
     <string name="display_alert_id">Nr powiadomienia:</string>
+
+    <string name="suspect_contact_title">Ostrzeżenie</string>
+    <string name="suspect_contact_text">Miałeś kontakt z podejrzanym</string>
 </resources>

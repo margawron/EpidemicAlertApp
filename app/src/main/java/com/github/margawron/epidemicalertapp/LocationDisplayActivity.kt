@@ -2,16 +2,25 @@ package com.github.margawron.epidemicalertapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.github.margawron.epidemicalertapp.api.alerts.AlertService
+import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.auth.AuthManager
 import com.github.margawron.epidemicalertapp.data.users.Role
 import com.github.margawron.epidemicalertapp.databinding.LocationDisplayActivityBinding
+import com.github.margawron.epidemicalertapp.dialogs.AlertDetailsDialog
 import com.github.margawron.epidemicalertapp.fragments.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,6 +32,10 @@ class LocationDisplayActivity : AppCompatActivity() {
 
     @Inject
     lateinit var authManager: AuthManager
+
+    @Inject
+    lateinit var alertService: AlertService
+
     private val poiLocationFragment = PoiLocationFragment()
     private val locationHistoryFragment = LocationHistoryFragment()
     private val zoneFragment = ZoneFragment()
@@ -53,6 +66,31 @@ class LocationDisplayActivity : AppCompatActivity() {
             }
             configureToolbarMenu(binding.locationDisplayToolbar.menu)
             binding.locationDisplayToolbar.setOnMenuItemClickListener(menuListeners())
+            Log.e(this::class.simpleName,
+                if(intent.extras == null) "extras are empty" else "extras not empty"
+            )
+            intent.extras?.let{ extras ->
+                val alertId = extras.get("alertId") as Long?
+                Log.e(this::class.simpleName, "AlertId ${alertId ?: "null"}")
+                alertId?.let {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val response = withContext(Dispatchers.IO){
+                            return@withContext alertService.getSingleAlert(alertId)
+                        }
+                        when(response){
+                            is ApiResponse.Success -> {
+                                AlertDetailsDialog(response.body!!)
+                                    .show(supportFragmentManager, AlertDetailsDialog.DIALOG_TAG)
+                            }
+                            is ApiResponse.Error -> {
+                                val errors = ApiResponse.errorToMessage(response)
+                                Log.w("OE", errors.toString())
+                                Toast.makeText(this@LocationDisplayActivity, errors, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

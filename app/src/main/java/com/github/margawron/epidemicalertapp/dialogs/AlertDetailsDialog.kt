@@ -15,6 +15,10 @@ class AlertDetailsDialog internal constructor(
     private val alertDto: AlertDto
 ): AppCompatDialogFragment()  {
 
+    companion object{
+        const val DIALOG_TAG = "show alert details"
+    }
+
     val viewModel: AlertDetailsViewModel by lazy{
         AlertDetailsViewModel(alertDto)
     }
