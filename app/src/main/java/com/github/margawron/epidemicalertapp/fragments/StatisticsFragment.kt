@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.github.margawron.epidemicalertapp.R
 import com.github.margawron.epidemicalertapp.api.common.ApiResponse
 import com.github.margawron.epidemicalertapp.api.statistics.StatisticsDto
 import com.github.margawron.epidemicalertapp.api.statistics.StatisticsService
 import com.github.margawron.epidemicalertapp.databinding.StatisticsFragmentBinding
-import com.github.margawron.epidemicalertapp.databinds.viewmodels.fragment.StatisticsFragmentViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
@@ -42,8 +40,6 @@ class StatisticsFragment : Fragment() {
     companion object {
         fun newInstance() = StatisticsFragment()
     }
-
-    private val viewModel by viewModels<StatisticsFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
