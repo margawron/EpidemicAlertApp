@@ -12,8 +12,6 @@ import com.github.margawron.epidemicalertapp.data.measurments.Measurement
 import com.github.margawron.epidemicalertapp.data.measurments.MeasurementDao
 import com.github.margawron.epidemicalertapp.data.pathogens.Pathogen
 import com.github.margawron.epidemicalertapp.data.pathogens.PathogenDao
-import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurement
-import com.github.margawron.epidemicalertapp.data.proximity.ProximityMeasurementDao
 import com.github.margawron.epidemicalertapp.data.users.User
 import com.github.margawron.epidemicalertapp.data.users.UserDao
 
@@ -22,16 +20,14 @@ import com.github.margawron.epidemicalertapp.data.users.UserDao
         Alert::class,
         Measurement::class,
         Pathogen::class,
-        ProximityMeasurement::class,
         User::class,
-    ], version = 1
+    ], version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun measurementDao(): MeasurementDao
     abstract fun pathogenDao(): PathogenDao
     abstract fun alertDao(): AlertDao
-    abstract fun proximityMeasurementDao(): ProximityMeasurementDao
 
     companion object {
         @Volatile
@@ -46,6 +42,11 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room
                 .databaseBuilder(context, AppDatabase::class.java, "epidemic-alert-db")
+                .addMigrations(object: Migration(1,2) {
+                    override fun migrate(database: SupportSQLiteDatabase) {
+                        database.execSQL("drop table if exists ProximityMeasurement")
+                    }
+                })
                 .build()
         }
     }
