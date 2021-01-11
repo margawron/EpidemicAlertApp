@@ -1,5 +1,10 @@
 <resources>
 
+    <!-- Permission library overrides -->
+    <string name="message_permission_required">Aplikacja wymaga uprawnień do pewnych funkcji aby działać poprawnie</string>
+    <string name="title_permission_required">Uprawnienia wymagane</string>
+    <string name="notification_channel_name">Uprawnienia</string>
+
     <string name="location_type_info">Info</string>
     <string name="location_type_quarantine">Kwarantanna</string>
 
