@@ -10,6 +10,7 @@ import com.github.margawron.epidemicalertapp.api.devices.DeviceService
 import com.github.margawron.epidemicalertapp.api.location.LocationService
 import com.github.margawron.epidemicalertapp.api.measurements.MeasurementService
 import com.github.margawron.epidemicalertapp.api.pathogens.PathogenService
+import com.github.margawron.epidemicalertapp.api.statistics.StatisticsService
 import com.github.margawron.epidemicalertapp.api.suspects.SuspectService
 import com.github.margawron.epidemicalertapp.api.users.UserService
 import com.github.margawron.epidemicalertapp.api.zones.ZoneService
@@ -84,4 +85,9 @@ class RetrofitModule {
     @Provides
     fun provideAlertService(retrofit: Retrofit): AlertService =
         retrofit.create(AlertService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideStatisticsService(retrofit: Retrofit): StatisticsService =
+        retrofit.create(StatisticsService::class.java)
 }

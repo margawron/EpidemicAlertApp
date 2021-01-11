@@ -102,8 +102,8 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_version"
 
-    // Work Manager
-    implementation "androidx.work:work-runtime-ktx:$work_version"
+    // Charts
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
     // GMS
     implementation platform('com.google.firebase:firebase-bom:26.2.0')

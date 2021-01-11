@@ -6,22 +6,18 @@
 
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/statistics_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="10dp"
         tools:context=".fragments.StatisticsFragment">
 
-        <RelativeLayout
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/statistics_barchart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Statistics"
-                android:layout_centerInParent="true" />
-        </RelativeLayout>
-
-    </FrameLayout>
+    </RelativeLayout>
 </layout>
