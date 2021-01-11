@@ -75,7 +75,9 @@ class LocationRepository @Inject constructor(
                         }
                         is ApiResponse.Error -> {
                             val error = ApiResponse.errorToMessage(response)
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                     withContext(Dispatchers.Main){
