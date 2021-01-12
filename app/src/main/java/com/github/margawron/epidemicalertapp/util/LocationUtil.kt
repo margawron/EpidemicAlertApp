@@ -45,7 +45,7 @@ object LocationUtil {
                     markerOptions
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                 }
-                LocationType.QUARANTINE -> {
+                LocationType.WARNING -> {
                     markerOptions
                         .icon(BitmapDescriptorFactory.defaultMarker(50.0f))
                 }

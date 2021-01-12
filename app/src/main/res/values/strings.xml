@@ -6,7 +6,7 @@
     <string name="notification_channel_name">Uprawnienia</string>
 
     <string name="location_type_info">Info</string>
-    <string name="location_type_quarantine">Kwarantanna</string>
+    <string name="location_type_warning">Ostrzeżenie</string>
 
     <string name="emergency_level_green">Zielona</string>
     <string name="emergency_level_yellow">Żółta</string>
