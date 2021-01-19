@@ -17,7 +17,7 @@ class AccountStateConverter {
     fun fromString(string: String): AccountState {
         return when (string) {
             "N" -> AccountState.NORMAL
-            "B" -> AccountState.NORMAL
+            "B" -> AccountState.BANNED
             else -> throw IllegalStateException("Invalid account state mapping string")
         }
     }
