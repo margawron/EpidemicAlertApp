@@ -13,7 +13,7 @@ class ZoneRepository @Inject constructor(
     private val zoneService: ZoneService,
 ) {
 
-    private lateinit var zonesInternal: List<ZoneDto>
+    private var zonesInternal: List<ZoneDto> = listOf()
     fun getZones() = zonesInternal
 
     private val zones: MutableLiveData<List<ZoneDto>> = MutableLiveData()
