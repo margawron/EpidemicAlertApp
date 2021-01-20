@@ -132,6 +132,7 @@ class LocationDisplayActivity : AppCompatActivity() {
             }
             Role.MODERATOR -> {
                 changePrivilegesItem.isVisible = false
+                markPlaceItem.isVisible = false
             }
             Role.ADMINISTRATOR -> {
                 markUserItem.isVisible = false
